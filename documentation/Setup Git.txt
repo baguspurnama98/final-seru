@@ -1,0 +1,7 @@
+untuk aturan git branches-nya, dari saya rekomendasi begini:
+- main (branch stabil)
+- release/production (branch stable yang diuji end to end, sebelum masuk ke main)
+- staging (branch untuk merging dari branch masing-masing developer)
+- [developer] (branch development untuk masing-masing developer)
+
+lalu yang bertugas merge 1 orang aja
