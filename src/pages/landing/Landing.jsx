@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function LandingPage() {
   return (
     <>
-      <h1 className="text-3xl font-bold underline">ini landing</h1>
+      <h1 className="text-3xl font-bold underline">ini landing,maulana</h1>
       <Link to="/login">
         <button>Login</button>
       </Link>
