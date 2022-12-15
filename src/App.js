@@ -5,6 +5,7 @@ import ProtectRoute from "./routes/ProtectRoute";
 import MainStore from "./stores/index";
 import ErrorPage from "./pages/error/ErrorPage";
 import LoginPage from "./pages/login/LoginPage";
+import "./index.css";
 function App() {
   return (
     <BrowserRouter>
