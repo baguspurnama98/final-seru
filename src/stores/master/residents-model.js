@@ -6,12 +6,11 @@ export const MaritalStatus = {
   JONES: "jones",
 };
 
-class Resident {
+export class Resident {
   constructor(
     id,
     fullname,
     email,
-    phone,
     phone,
     maritalStatus,
     dependents,
