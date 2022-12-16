@@ -77,7 +77,7 @@ function ModalUnit(props) {
               name="direction"
               value={formUnit.direction}
               onChange={handleOnChangeUnit}
-              className="w-full p-3 mt-2 mb-4 w-full bg-white border-blue-300 text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
+              className="p-3 mt-2 mb-4 w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
             >
               <option value="NORTH">North</option>
               <option value="NORTHEAST">Northeast</option>
@@ -110,7 +110,7 @@ function ModalUnit(props) {
                 name="balcony"
                 value={formUnit.balcony}
                 onChange={handleOnChangeUnit}
-                className="w-full p-3 mt-2 mb-4 w-full bg-white border-blue-300 text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
+                className="p-3 mt-2 mb-4 w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
               >
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
@@ -127,7 +127,7 @@ function ModalUnit(props) {
                 name="furnished"
                 value={formUnit.furnished}
                 onChange={handleOnChangeUnit}
-                className="w-full p-3 mt-2 mb-4 w-full bg-white border-blue-300 text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
+                className="p-3 mt-2 mb-4 w-full bg-white text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
               >
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
@@ -157,7 +157,7 @@ function ModalUnit(props) {
                 name="rentSchema"
                 value={formUnit.rentSchema}
                 onChange={handleOnChangeUnit}
-                className="w-full p-3 mt-2 mb-4 w-full bg-white border-blue-300 text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
+                className="p-3 mt-2 mb-4 w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
               >
                 <option value="Daily">Daily</option>
                 <option value="Weekly">Weekly</option>

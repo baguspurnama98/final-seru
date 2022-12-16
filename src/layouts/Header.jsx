@@ -28,7 +28,7 @@ function Header() {
                 </Link>
               </li>
               <li className="p-4 border-b-2 border-blue-900 border-opacity-0 hover:border-opacity-100 hover:text-gray-200 duration-200 cursor-pointer active">
-                <Link to="home">
+                <Link to="units">
                   <a>Apartment</a>
                 </Link>
               </li>
