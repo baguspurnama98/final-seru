@@ -1,49 +1,111 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import ModalUnit from "./ModalUnit";
 
 function UnitPage() {
+  const [showModal, setShowModal] = useState(false);
+  const [units] = useState([
+    {
+      id: 1,
+      floor: "10",
+      unit: "10AA",
+      status: "sold",
+      price: "IDR 500.000.000",
+      rentalPrice: "IDR 5.000.00",
+      rentalSchema: "monthly",
+      details: "Rooms: 3",
+      resident: "Paijo Sukirman",
+      actions: "manage",
+    },
+    {
+      id: 2,
+      floor: "10",
+      unit: "10AB",
+      status: "rented",
+      price: "IDR 450.000.000",
+      rentalPrice: "IDR 4.500.00",
+      rentalSchema: "monthly",
+      details: "Rooms: 3",
+      resident: "Tukiyem Markonah",
+      actions: "manage",
+    },
+    {
+      id: 3,
+      floor: "10",
+      unit: "10AC",
+      status: "available",
+      price: "IDR 550.000.000",
+      rentalPrice: "IDR 5.500.00",
+      rentalSchema: "weekly",
+      details: "Rooms: 3",
+      resident: "-",
+      actions: "manage",
+    },
+  ]);
+
   return (
-    <div>
-      <table class="min-w-full table-auto">
-        <thead class="justify-between">
-          <tr class="bg-gray-800">
-            <th class="px-1 py-2">
-              <span class="text-gray-300">Floor</span>
-            </th>
-            <th class="px-1 py-2">
-              <span class="text-gray-300">Unit</span>
-            </th>
-            <th class="px-1 py-2">
-              <span class="text-gray-300">Status</span>
-            </th>
-            <th class="px-1 py-2">
-              <span class="text-gray-300">Price</span>
-            </th>
+    <>
+      {showModal && <ModalUnit setShowModal={setShowModal} />}
+      <div class="overflow-x-auto">
+        <div class="min-w-screen min-h-screen  flex  bg-white font-sans">
+          <div class="w-full px-20 my-10">
+            <div className="flex justify-end my-2">
+              <button
+                onClick={() => setShowModal(true)}
+                className="py-4 px-8  bg-blue-700 hover:bg-blue-500 font-bold text-md rounded-md text-white drop-shadow-3xl"
+              >
+                Add Unit
+              </button>
+            </div>
+            <div class="bg-white shadow-md rounded ">
+              <table class="min-w-max w-full table-auto">
+                <thead>
+                  <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                    <th class="py-2 px-2 w-2.5 text-center">#</th>
+                    <th class="py-2 px-2 w-10 text-center">Floor</th>
+                    <th class="py-2 px-2 w-10 text-center">Unit</th>
+                    <th class="py-2 px-2 w-10 text-center">Status</th>
+                    <th class="py-2 px-2 w-10 text-center">Price</th>
+                    <th class="py-2 px-2 w-10 text-center">Rental Price</th>
+                    <th class="py-2 px-2 w-10 text-center">Rental Schema</th>
+                    <th class="py-2 px-2 w-10 text-center">Details</th>
+                    <th class="py-2 px-2 w-10 text-center">Resident</th>
+                    <th class="py-2 px-2 w-10 text-center">Actions</th>
+                  </tr>
+                </thead>
 
-            <th class="px-1 py-2">
-              <span class="text-gray-300">Rental Price</span>
-            </th>
-
-            <th class="px-1 py-2">
-              <span class="text-gray-300">Rental Schema</span>
-            </th>
-            <th class="px-1 py-2">
-              <span class="text-gray-300">Details</span>
-            </th>
-            <th class="px-1 py-2">
-              <span class="text-gray-300">Resident</span>
-            </th>
-            <th class="px-1 py-2">
-              <span class="text-gray-300">Actions</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody class="bg-gray-200">
-          <tr class="bg-white border-4 border-gray-200">
-            <td class="px-1 py-2 text-center">oke</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+                <tbody class="text-gray-600 text-sm font-reguler">
+                  {units.map((unit, idx) => (
+                    <tr
+                      key={idx}
+                      class="border-b border-gray-200 hover:bg-white"
+                    >
+                      <td class="py-3 px-3 text-center">{unit.id}</td>
+                      <td class="py-3 px-3 text-center">{unit.floor}</td>
+                      <td class="py-3 px-3 text-center">{unit.unit}</td>
+                      <td class="py-3 px-3 text-center">{unit.status}</td>
+                      <td class="py-3 px-3 text-center">{unit.price}</td>
+                      <td class="py-3 px-3 text-center">{unit.rentalPrice}</td>
+                      <td class="py-3 px-3 text-center">{unit.rentalSchema}</td>
+                      <td class="py-3 px-3 text-center">
+                        <button className="py-1 px-8  bg-blue-500 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl">
+                          Details
+                        </button>
+                      </td>
+                      <td class="py-3 px-3 text-center">{unit.resident}</td>
+                      <td class="py-3 px-3 text-center">
+                        <button className="py-1 px-8  bg-blue-500 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl">
+                          Manage
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
