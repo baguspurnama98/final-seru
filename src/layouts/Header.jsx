@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/apartments-logo.png";
 
 function Header() {
-  const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
 
   useEffect(() => {
     if (sessionStorage.getItem("isLogin") === "0") {
@@ -25,7 +25,9 @@ function Header() {
             <nav className="nav font-semibold text-lg text-white mr-6">
               <ul className="flex items-ends ">
                 <li className="p-4 border-b-2 border-blue-900 border-opacity-0 hover:border-opacity-100 hover:text-gray-200 duration-200 cursor-pointer active">
-                  <a href="">Apartment</a>
+                  <Link to="units">
+                    <a>Apartments</a>
+                  </Link>
                 </li>
                 <li className="p-4 border-b-2 border-blue-900 border-opacity-0 hover:border-opacity-100 hover:text-gray-200 duration-200 cursor-pointer">
                   <Link to="transactions">

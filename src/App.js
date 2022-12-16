@@ -10,6 +10,7 @@ import Header from "./layouts/Header";
 import TransactionsPage from "./pages/transactions/TransactionsPage";
 import MainLayout from "./layouts/Main";
 import HomePage from "./pages/home/HomePage";
+import UnitPage from "./pages/master/units/UnitPage";
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route element={<ProtectRoute />}>
             <Route path="" element={<LandingPage />} />
+            <Route path="/units" element={<UnitPage />} />
           </Route>
         </Routes>
       </MainLayout>
