@@ -9,6 +9,9 @@ import "./index.css";
 import Header from "./layouts/Header";
 import TransactionsPage from "./pages/transactions/TransactionsPage";
 import MainLayout from "./layouts/Main";
+import Home from "./pages/home/Home";
+import UnitPage from "./pages/master/units/UnitPage";
+
 function App() {
   return (
     <BrowserRouter>
@@ -17,9 +20,11 @@ function App() {
         <Routes>
           <Route path="*" element={<ErrorPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/transactions" element={<TransactionsPage />} />
           <Route element={<ProtectRoute />}>
             <Route path="" element={<LandingPage />} />
+            <Route path="/units" element={<UnitPage />} />
           </Route>
         </Routes>
       </MainLayout>
