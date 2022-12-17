@@ -6,29 +6,29 @@ import MainStore from "./stores/index";
 import ErrorPage from "./pages/error/ErrorPage";
 import LoginPage from "./pages/login/LoginPage";
 import "./index.css";
-import Header from "./layouts/Header";
+
 import TransactionsPage from "./pages/transactions/TransactionsPage";
 import MainLayout from "./layouts/Main";
-import Home from "./pages/home/Home";
 import UnitPage from "./pages/master/units/UnitPage";
+import HomePage from "./pages/home/HomePage";
 
 function App() {
   return (
     <BrowserRouter>
-      {/* <Provider store={MainStore}> */}
-      <MainLayout>
-        <Routes>
-          <Route path="*" element={<ErrorPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/transactions" element={<TransactionsPage />} />
-          <Route element={<ProtectRoute />}>
+      <Provider store={MainStore}>
+        <MainLayout>
+          <Routes>
+            <Route path="*" element={<ErrorPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="" element={<LandingPage />} />
-            <Route path="/units" element={<UnitPage />} />
-          </Route>
-        </Routes>
-      </MainLayout>
-      {/* </Provider> */}
+            <Route element={<ProtectRoute />}>
+              <Route path="/transactions" element={<TransactionsPage />} />
+              <Route path="/units" element={<UnitPage />} />
+              <Route path="/home" element={<HomePage />} />
+            </Route>
+          </Routes>
+        </MainLayout>
+      </Provider>
     </BrowserRouter>
   );
 }
