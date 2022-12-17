@@ -1,53 +1,54 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUnits } from "../../../stores/master/units-slice";
 import ModalUnit from "./ModalUnit";
+import ModalDetailUnit from "./ModalDetailUnit";
+import UnitList from "./UnitList";
 
 function UnitPage() {
   const [showModal, setShowModal] = useState(false);
-  const [units] = useState([
-    {
-      id: 1,
-      floor: "10",
-      unit: "10AA",
-      status: "sold",
-      price: "IDR 500.000.000",
-      rentalPrice: "IDR 5.000.00",
-      rentalSchema: "monthly",
-      details: "Rooms: 3",
-      resident: "Paijo Sukirman",
-      actions: "manage",
-    },
-    {
-      id: 2,
-      floor: "10",
-      unit: "10AB",
-      status: "rented",
-      price: "IDR 450.000.000",
-      rentalPrice: "IDR 4.500.00",
-      rentalSchema: "monthly",
-      details: "Rooms: 3",
-      resident: "Tukiyem Markonah",
-      actions: "manage",
-    },
-    {
-      id: 3,
-      floor: "10",
-      unit: "10AC",
-      status: "available",
-      price: "IDR 550.000.000",
-      rentalPrice: "IDR 5.500.00",
-      rentalSchema: "weekly",
-      details: "Rooms: 3",
-      resident: "-",
-      actions: "manage",
-    },
-  ]);
+  const [showModalDetail, setShowModalDetail] = useState(false);
+  const [dataSelected, setDataSelected] = useState(undefined);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const { userLogged } = useSelector((store) => store.users);
+  const { units } = useSelector((store) => store.units);
+  const dispatch = useDispatch();
+  const loading = useRef(true);
+
+  useEffect(() => {
+    if (loading.current) {
+      dispatch(getUnits(userLogged.token));
+      loading.current = false;
+    }
+  }, [dispatch, userLogged.token, refreshKey]);
+
+  const handleDetailClicked = (id) => {
+    setShowModalDetail(true);
+    setDataSelected(units[id]);
+  };
 
   return (
     <>
-      {showModal && <ModalUnit setShowModal={setShowModal} />}
-      <div class="overflow-x-auto">
-        <div class="min-w-screen min-h-screen  flex  bg-white font-sans">
-          <div class="w-full px-20 my-10">
+      {showModal && (
+        <ModalUnit
+          setShowModal={setShowModal}
+          userLogged={userLogged}
+          setRefreshKey={setRefreshKey}
+          refreshKey={refreshKey}
+          loading={loading}
+        />
+      )}
+      {showModalDetail && (
+        <ModalDetailUnit
+          dataSelected={dataSelected}
+          setShowModalDetail={setShowModalDetail}
+        />
+      )}
+
+      <div className="overflow-x-auto">
+        <div className="min-w-screen min-h-screen  flex  bg-white font-sans">
+          <div className="w-full px-20 my-10">
             <div className="flex justify-end my-2">
               <button
                 onClick={() => setShowModal(true)}
@@ -56,51 +57,12 @@ function UnitPage() {
                 Add Unit
               </button>
             </div>
-            <div class="bg-white shadow-md rounded ">
-              <table class="min-w-max w-full table-auto">
-                <thead>
-                  <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                    <th class="py-2 px-2 w-2.5 text-center">#</th>
-                    <th class="py-2 px-2 w-10 text-center">Floor</th>
-                    <th class="py-2 px-2 w-10 text-center">Unit</th>
-                    <th class="py-2 px-2 w-10 text-center">Status</th>
-                    <th class="py-2 px-2 w-10 text-center">Price</th>
-                    <th class="py-2 px-2 w-10 text-center">Rental Price</th>
-                    <th class="py-2 px-2 w-10 text-center">Rental Schema</th>
-                    <th class="py-2 px-2 w-10 text-center">Details</th>
-                    <th class="py-2 px-2 w-10 text-center">Resident</th>
-                    <th class="py-2 px-2 w-10 text-center">Actions</th>
-                  </tr>
-                </thead>
-
-                <tbody class="text-gray-600 text-sm font-reguler">
-                  {units.map((unit, idx) => (
-                    <tr
-                      key={idx}
-                      class="border-b border-gray-200 hover:bg-white"
-                    >
-                      <td class="py-3 px-3 text-center">{unit.id}</td>
-                      <td class="py-3 px-3 text-center">{unit.floor}</td>
-                      <td class="py-3 px-3 text-center">{unit.unit}</td>
-                      <td class="py-3 px-3 text-center">{unit.status}</td>
-                      <td class="py-3 px-3 text-center">{unit.price}</td>
-                      <td class="py-3 px-3 text-center">{unit.rentalPrice}</td>
-                      <td class="py-3 px-3 text-center">{unit.rentalSchema}</td>
-                      <td class="py-3 px-3 text-center">
-                        <button className="py-1 px-8  bg-blue-500 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl">
-                          Details
-                        </button>
-                      </td>
-                      <td class="py-3 px-3 text-center">{unit.resident}</td>
-                      <td class="py-3 px-3 text-center">
-                        <button className="py-1 px-8  bg-blue-500 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl">
-                          Manage
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="bg-white shadow-md rounded ">
+              <UnitList
+                loading={loading}
+                units={units}
+                handleDetailClicked={handleDetailClicked}
+              />
             </div>
           </div>
         </div>

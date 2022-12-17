@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/apartments-logo.png";
+import { logout } from "../stores/auth/auth-slice";
 
 function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onHandleLogout = () => {
+    dispatch(logout());
     sessionStorage.removeItem("isLogin");
     sessionStorage.removeItem("userLogged");
     navigate("/");
@@ -23,19 +27,13 @@ function Header() {
           <nav className="nav font-semibold text-lg text-white mr-6">
             <ul className="flex items-ends ">
               <li className="p-4 border-b-2 border-blue-900 border-opacity-0 hover:border-opacity-100 hover:text-gray-200 duration-200 cursor-pointer">
-                <Link to="home">
-                  <a>Home</a>
-                </Link>
+                <Link to="home">Home</Link>
               </li>
               <li className="p-4 border-b-2 border-blue-900 border-opacity-0 hover:border-opacity-100 hover:text-gray-200 duration-200 cursor-pointer active">
-                <Link to="units">
-                  <a>Apartment</a>
-                </Link>
+                <Link to="units">Apartment</Link>
               </li>
               <li className="p-4 border-b-2 border-blue-900 border-opacity-0 hover:border-opacity-100 hover:text-gray-200 duration-200 cursor-pointer">
-                <Link to="transactions">
-                  <a>Transactions</a>
-                </Link>
+                <Link to="transactions">Transactions</Link>
               </li>
             </ul>
           </nav>
