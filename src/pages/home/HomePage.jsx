@@ -8,10 +8,14 @@ function HomePage() {
   const [rented, setrented] = useState(10);
   const [sold, setsold] = useState(20);
   const [unavailable, setunavailable] = useState(40);
-  const { userLogged } = useSelector((store) => store[userSlice.name]);
-  const navigate = useNavigate();
-  console.log(userLogged);
 
+  const { userLogged } = useSelector((store) => store.users);
+  const { units } = useSelector((store) => store.units);
+  const navigate = useNavigate();
+
+  // const classifyStatus = (status) => {
+  //   return units.filter((item) => item.status === status).length;
+  // };
   useEffect(() => {
     if (userLogged === undefined) {
       navigate("/login");
@@ -22,22 +26,19 @@ function HomePage() {
     <>
       {userLogged && (
         <div className="container max-w-5xl mx-auto pt-20">
-          <header className="flex flex-row pt-2 items-center "></header>
           <main>
-            <div className="container max-w-4xl mx-auto">
+            <div className="container max-w-4xl">
               <div>
-                <h1 className="font-bold text-4xl pb-5">
-                  Selamat datang {`, ${userLogged.fullname || ""}`}
+                <h1 className="font-bold text-5xl pb-5">
+                  Selamat datang{`, ${userLogged.fullname || ""}`}
                 </h1>
-                <div className="font-normal text-md pb-12">
-                  we are ready to serve.
+                <div className="font-normal text-3xl pb-12">
+                  We are ready to serve.
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col">
-              <h2 className="mb-4 text-2xl font-bold">Feature Cards</h2>
-
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <div className="flex items-start rounded-xl bg-white p-4 shadow-lg">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-100 bg-blue-50">
@@ -58,10 +59,10 @@ function HomePage() {
                   </div>
 
                   <div className="ml-4">
-                    <h2 className="font-semibold">{available} available</h2>
-                    <p className="mt-2 text-sm text-gray-500">
-                      Last opened 4 days ago
-                    </p>
+                    <h2 className="font-semibold">
+                      {/* {() => classifyStatus("available")} */}
+                    </h2>
+                    <p className="mt-2 text-sm text-gray-500">Unit Tersedia</p>
                   </div>
                 </div>
 
