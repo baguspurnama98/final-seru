@@ -10,11 +10,11 @@ const headers = {
 //   return await response.json();
 // }
 
-export async function login(credentials) {
-  const response = await fetch(`${apiGuestURL}/login`, {
+export async function getAllUnits(token) {
+  headers["Authorization"] = token;
+  const response = await fetch("http://localhost:4000/api/units", {
     headers,
-    method: "POST",
-    body: JSON.stringify(credentials),
+    method: "GET",
   });
 
   return await response.json();

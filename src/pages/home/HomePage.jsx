@@ -1,32 +1,43 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { data } from "browserslist";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import userSlice from "../../stores/auth/auth-slice";
+import { getUnits } from "./Slice";
 
 function HomePage() {
   const [available, setavailable] = useState(50);
   const [rented, setrented] = useState(10);
   const [sold, setsold] = useState(20);
   const [unavailable, setunavailable] = useState(40);
-  const { userLogged } = useSelector((store) => store[userSlice.name]);
+  const { userLogged } = useSelector((store) => store.users);
+  const { units } = useSelector((store) => store.units);
+  const dispatch = useDispatch();
   console.log(userLogged);
+
+  const classifyStatus = (status) => {
+    return units.filter((item) => item.status === status).length;
+  };
+
+  useEffect(() => {
+    dispatch(getUnits(userLogged.token));
+  }, []);
+  console.log(units);
   return (
-    <div className="container max-w-5xl mx-auto pt-20">
+    <div className="container max-w-5xl mx-auto text-left pt-20">
       <header className="flex flex-row pt-2 items-center "></header>
       <main>
-        <div className="container max-w-4xl mx-auto">
+        <div className="container max-w-4xl">
           <div>
-            <h1 className="font-bold text-4xl pb-5">
-              Selamat datang, {userLogged.username}
+            <h1 className="font-bold text-5xl pb-5">
+              Selamat datang, {userLogged.fullname}
             </h1>
-            <div className="font-normal text-md pb-12">
-              we are ready to serve.
+            <div className="font-normal text-3xl pb-12">
+              We are ready to serve.
             </div>
           </div>
         </div>
 
         <div class="flex flex-col">
-          <h2 class="mb-4 text-2xl font-bold">Feature Cards</h2>
-
           <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div class="flex items-start rounded-xl bg-white p-4 shadow-lg">
               <div class="flex h-12 w-12 items-center justify-center rounded-full border border-blue-100 bg-blue-50">
@@ -46,9 +57,9 @@ function HomePage() {
                 </svg>
               </div>
 
-              <div class="ml-4">
-                <h2 class="font-semibold">{available} available</h2>
-                <p class="mt-2 text-sm text-gray-500">Last opened 4 days ago</p>
+              <div class="ml-6 text-center">
+                <h2 class="font-semibold">{classifyStatus("available")} </h2>
+                <p class="mt-2 text-sm text-gray-500">Unit Tersedia</p>
               </div>
             </div>
 
@@ -70,11 +81,9 @@ function HomePage() {
                 </svg>
               </div>
 
-              <div class="ml-4">
-                <h2 class="font-semibold">{rented} rented</h2>
-                <p class="mt-2 text-sm text-gray-500">
-                  Last checked 3 days ago
-                </p>
+              <div class="ml-6 text-center">
+                <h2 class="font-semibold">{classifyStatus("rented")}</h2>
+                <p class="mt-2 text-sm text-gray-500">Unit Tersewa</p>
               </div>
             </div>
             <div class="flex items-start rounded-xl bg-white p-4 shadow-lg">
@@ -95,11 +104,9 @@ function HomePage() {
                 </svg>
               </div>
 
-              <div class="ml-4">
-                <h2 class="font-semibold">{sold} sold</h2>
-                <p class="mt-2 text-sm text-gray-500">
-                  Last authored 1 day ago
-                </p>
+              <div class="ml-8 text-center">
+                <h2 class="font-semibold">{classifyStatus("sold")}</h2>
+                <p class="mt-2 text-sm text-gray-500">Unit Terjual</p>
               </div>
             </div>
             <div class="flex items-start rounded-xl bg-white p-4 shadow-lg">
@@ -120,11 +127,9 @@ function HomePage() {
                 </svg>
               </div>
 
-              <div class="ml-4">
-                <h2 class="font-semibold">{unavailable} unavailable</h2>
-                <p class="mt-2 text-sm text-gray-500">
-                  Last commented 8 days ago
-                </p>
+              <div class="ml-6 text-center">
+                <h2 class="font-semibold">{classifyStatus("unavailable")} </h2>
+                <p class="mt-2 text-sm text-gray-500">UnIt Tidak Tersedia</p>
               </div>
             </div>
           </div>
