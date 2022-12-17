@@ -1,16 +1,17 @@
-import { Provider } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LandingPage from "./pages/landing/Landing";
-import ProtectRoute from "./routes/ProtectRoute";
-import MainStore from "./stores/index";
-import ErrorPage from "./pages/error/ErrorPage";
-import LoginPage from "./pages/login/LoginPage";
-import "./index.css";
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import LandingPage from './pages/landing/Landing';
+import ProtectRoute from './routes/ProtectRoute';
+import MainStore from './stores/index';
+import ErrorPage from './pages/error/ErrorPage';
+import LoginPage from './pages/login/LoginPage';
+import './index.css';
 
-import TransactionsPage from "./pages/transactions/TransactionsPage";
-import MainLayout from "./layouts/Main";
-import UnitPage from "./pages/master/units/UnitPage";
-import HomePage from "./pages/home/HomePage";
+import TransactionsPage from './pages/transactions/TransactionsPage';
+import MainLayout from './layouts/Main';
+import UnitPage from './pages/master/units/UnitPage';
+import HomePage from './pages/home/HomePage';
+import ResidentPage from './pages/master/residents/ResidentPage';
 
 function App() {
   return (
@@ -18,13 +19,13 @@ function App() {
       <Provider store={MainStore}>
         <MainLayout>
           <Routes>
-            <Route path="*" element={<ErrorPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="" element={<LandingPage />} />
+            <Route path='*' element={<ErrorPage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='' element={<LandingPage />} />
             <Route element={<ProtectRoute />}>
-              <Route path="/transactions" element={<TransactionsPage />} />
-              <Route path="/units" element={<UnitPage />} />
-              <Route path="/home" element={<HomePage />} />
+              <Route path='/transactions' element={<TransactionsPage />} />
+              <Route path='/units' element={<UnitPage />} />
+              <Route path='/home' element={<HomePage />} />
             </Route>
           </Routes>
         </MainLayout>

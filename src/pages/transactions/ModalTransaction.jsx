@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { MaritalStatus, Resident } from '../../stores/master/residents-model';
+import { useDispatch } from 'react-redux';
+import { saveResident } from '../../stores/master/resident-slice';
+import { Resident } from '../../stores/master/residents-model';
 import { Transaction } from '../../stores/transaction/transaction-model';
 
 function ModalTransaction(props) {
   const [formResident, setFormResident] = useState(new Resident());
-
   const [formTransaction, setFormTransaction] = useState(new Transaction());
+  const dispatch = useDispatch();
 
   const handleOnChangeResident = (e) => {
     setFormResident({
@@ -23,8 +25,7 @@ function ModalTransaction(props) {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    console.log(formResident);
-    console.log(formTransaction);
+    dispatch(saveResident(formResident));
   };
 
   const [showRentForm, setShowRentForm] = useState(false);
@@ -275,7 +276,7 @@ function ModalTransaction(props) {
               </button>
               <button
                 className='focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-400 ml-3 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-blue-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm'
-                onClick={() => props.setShowModal(false)}
+                onClick={() => props.setShowTransactionModal(false)}
                 aria-label='close modal'
                 role='button'
               >
@@ -285,7 +286,7 @@ function ModalTransaction(props) {
 
             <button
               className='cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600'
-              onClick={() => props.setShowModal(false)}
+              onClick={() => props.setShowTransactionModal(false)}
               aria-label='close modal'
               role='button'
             >
