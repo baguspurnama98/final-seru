@@ -65,17 +65,9 @@ export default function UnitList(props) {
               </td>
 
               <td className="py-3 px-3 text-center">
-                <div className="flex flex-col space-y-2">
-                  <button className="py-1 px-2  bg-blue-500 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl">
-                    Manage
-                  </button>
-                  <button
-                    className="py-1 px-2  bg-green-500 hover:bg-green-400 font-bold text-md rounded-md text-white drop-shadow-3xl"
-                    disabled={unit.status === "unavailable"}
-                  >
-                    Rent/Sell
-                  </button>
-                </div>
+                <button className="py-1 px-2  bg-blue-500 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl">
+                  Manage
+                </button>
               </td>
             </tr>
           ))}
