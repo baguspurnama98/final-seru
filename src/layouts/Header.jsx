@@ -19,7 +19,7 @@ function Header() {
       <header className="header sticky top-0 bg-[#2469a5] shadow-md flex items-center justify-between px-36 py-2">
         <h1 className="w-3/12">
           <Link to="/" className="flex items-center font-bold text-lg">
-            <img src={logo} className="w-12 h-12 my-2 mr-3 " />
+            <img src={logo} alt="..." className="w-12 h-12 my-2 mr-3 " />
             <span className="text-2xl text-white">Mandiri Apartment</span>
           </Link>
         </h1>

@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import { Link } from "react-router-dom";
 import Spinner from "../../assets/Spinner";
-import userSlice, { loginUser } from "../../stores/auth/auth-slice";
+import { loginUser } from "../../stores/auth/auth-slice";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");

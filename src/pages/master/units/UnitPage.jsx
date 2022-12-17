@@ -21,7 +21,7 @@ function UnitPage() {
       dispatch(getUnits(userLogged.token));
       loading.current = false;
     }
-  }, [dispatch, userLogged.token, refreshKey]);
+  }, [dispatch, refreshKey, userLogged.token]);
 
   const handleDetailClicked = (id) => {
     setShowModalDetail(true);

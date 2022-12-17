@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Spinner from "../../../assets/Spinner";
 import { ApartmentUnit } from "../../../stores/master/master-model";
 import { createUnit } from "../../../stores/master/units-slice";
@@ -249,7 +249,6 @@ function ModalUnit(props) {
             <button
               className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
               aria-label="close modal"
-              role="button"
               onClick={() => props.setShowModal(false)}
             >
               <svg
