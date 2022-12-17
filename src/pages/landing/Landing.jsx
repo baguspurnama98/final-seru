@@ -1,7 +1,10 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../assets/apartment-hero.svg";
 
 export default function LandingPage() {
+  const { userLogged } = useSelector((store) => store.users);
+
   return (
     <>
       <div className="container max-w-5xl mx-auto grid md:grid-cols-2 sm:grid-cols-1 py-24">
@@ -10,12 +13,14 @@ export default function LandingPage() {
             Mandiri Apartment
           </h1>
           <div className="text-3xl font-bold pb-10">Daan Mogot City</div>
-          <Link
-            to="/login"
-            className="py-4 px-16 bg-blue-700 hover:bg-blue-500 font-bold text-2xl rounded-md text-white drop-shadow-3xl"
-          >
-            Login
-          </Link>
+          {!userLogged && (
+            <Link
+              to="/login"
+              className="py-4 px-16 bg-blue-700 hover:bg-blue-500 font-bold text-2xl rounded-md text-white drop-shadow-3xl"
+            >
+              Login
+            </Link>
+          )}
         </div>
         <div>
           <img src={logo} alt="ilustration-laslesvpn" />

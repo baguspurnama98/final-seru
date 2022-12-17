@@ -1,4 +1,4 @@
-// const apiGuestURL = "/api/";
+const BASE_API_URL = 'http://localhost:4000';
 
 const headers = {
   Accept: 'application/json',
@@ -31,7 +31,26 @@ export async function createResident(resident) {
     method: 'POST',
     body: JSON.stringify(resident),
   });
+  return await response.json();
+}
 
+export async function getAllUnits(token) {
+  headers['Authorization'] = `${token}`;
+  const response = await fetch(`${BASE_API_URL}/units`, {
+    headers,
+    method: 'GET',
+  });
+  return await response.json();
+}
+
+export async function createUnit(data) {
+  // headers["Authorization"] = `${data.token}`;
+  // console.log(data);
+  const response = await fetch(`${BASE_API_URL}/units`, {
+    headers,
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
   return await response.json();
 }
 
