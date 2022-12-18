@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Pulse from "../../assets/Pulse";
 import transactionSlice, {
   fetchTransactions,
+  getTransactionsByFilter,
 } from "../../stores/transaction/transaction-slice";
 import ResidentPage from "../master/residents/ResidentPage";
 import ModalTransaction from "./ModalTransaction";
@@ -11,20 +13,29 @@ function TransactionsPage() {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [showResidentModal, setShowResidentModal] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-
   const [filter, setFilter] = useState({
     doFilter: false,
     floor: 0,
     status: "",
   });
+  const [loading, setLoading] = useState(true);
 
   const { transactions } = useSelector((store) => store[transactionSlice.name]);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log("rendering");
-    dispatch(fetchTransactions());
-  }, [dispatch]);
+    if (loading) {
+      if (filter.doFilter === false) {
+        dispatch(fetchTransactions());
+      } else {
+        // console.log(filter);
+        // dispatch(getTransactionsByFilter(filter)).then(() => {
+        //   setFilter({ ...filter, doFilter: false });
+        //   setLoading(false);
+        // });
+      }
+    }
+  }, [dispatch, refreshKey, loading]);
 
   const handleOnChangeFilter = (e) => {
     setFilter({ ...filter, [e.target.name]: e.target.value });
@@ -32,9 +43,11 @@ function TransactionsPage() {
 
   const handleFilter = (e) => {
     e.preventDefault();
-    console.log(filter);
+    setFilter({ ...filter, doFilter: true });
+    setLoading(true);
+    setRefreshKey(refreshKey + 1);
   };
-  console.log(transactions);
+
   return (
     <>
       {showTransactionModal && (
@@ -53,29 +66,25 @@ function TransactionsPage() {
           <div className="w-full px-20 my-10">
             <div className="flex justify-between my-2">
               <div className="border p-2 rounded-lg">
-                <h4 className="text-center font-bold">Filter Data Form</h4>
+                <h4 className="text-center font-bold">
+                  Filter Data Transaction
+                </h4>
                 <form
-                  className=" grid grid-cols-2 gap-2"
+                  className=" grid grid-cols-3 gap-2"
                   onSubmit={handleFilter}
                 >
                   <div>
                     <label className="text-gray-800 text-sm font-bold">
                       Floor
                     </label>
-                    <select
+                    <input
                       name="floor"
+                      type="number"
+                      className=" text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-blue-500 rounded border"
+                      placeholder="Ex: 10"
                       onChange={handleOnChangeFilter}
-                      value={filter.floor}
-                      className="p-2  w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
-                    >
-                      {[...Array(10).keys()].map((item, idx) => (
-                        <option key={idx} value={idx + 1}>
-                          {item + 1}
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </div>
-
                   <div>
                     <label className="text-gray-800 text-sm font-bold">
                       Status
@@ -86,22 +95,20 @@ function TransactionsPage() {
                       onChange={handleOnChangeFilter}
                       className="p-2 w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
                     >
+                      <option>Choose</option>
                       <option value="available">Available</option>
                       <option value="unavailable">Unavailable</option>
                       <option value="rented">Rented</option>
                       <option value="sold">Sold</option>
                     </select>
                   </div>
-                  <div></div>
 
-                  <div className="flex justify-end items-center">
-                    <button
-                      type="submit"
-                      className="bg-rose-400 py-2 px-4 rounded-lg text-white hover:bg-rose-500 se"
-                    >
-                      Filter Data
-                    </button>
-                  </div>
+                  <button
+                    type="submit"
+                    className="bg-rose-400 py-2 px-4 rounded-lg text-white hover:bg-rose-500 self-end"
+                  >
+                    Filter Data
+                  </button>
                 </form>
               </div>
               <button
@@ -140,6 +147,15 @@ function TransactionsPage() {
                 </thead>
 
                 <tbody className="text-gray-600 text-sm font-reguler">
+                  {loading && transactions.length === 0 && (
+                    <tr className="border-b border-gray-200 hover:bg-white ">
+                      <td colSpan={12}>
+                        <div className="my-3">
+                          <Pulse />
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                   {transactions.map((transaction, idx) => (
                     <tr
                       key={idx}

@@ -128,6 +128,30 @@ export async function createTransaction(data) {
   return await response.json();
 }
 
+export async function getTransactionsByFilter(payload) {
+  headers["Authorization"] = JSON.parse(
+    localStorage.getItem("userLogged")
+  ).token;
+  let url = [];
+  if (payload.floor !== "0" && payload.floor) {
+    url.push(`floor=${payload.floor}`);
+  }
+  if (payload.status) {
+    url.push(`status=${payload.status}`);
+  }
+  url = url.join("&");
+  console.log(url);
+
+  const response = await fetch(
+    `${BASE_API_URL}/transactions?_expand=resident&_expand=unit?${url}`,
+    {
+      headers,
+      method: "GET",
+    }
+  );
+  return await response.json();
+}
+
 // ---------------------------
 
 export async function getAllResidents() {

@@ -17,8 +17,16 @@ export const fetchTransactionsbyId = createAsyncThunk(
 export const createTransaction = createAsyncThunk(
   "transactions/create",
   async (data) => {
-    const units = await ConfigAPI.createTransaction(data);
-    return units;
+    const transactions = await ConfigAPI.createTransaction(data);
+    return transactions;
+  }
+);
+
+export const getTransactionsByFilter = createAsyncThunk(
+  "transactions/filter",
+  async (data) => {
+    const transactions = await ConfigAPI.getTransactionsByFilter(data);
+    return transactions;
   }
 );
 
@@ -38,6 +46,12 @@ const transactionSlice = createSlice({
         state.transactions = action.payload;
       })
       .addCase(fetchTransactions.rejected, (state) => {
+        state.transactions = [];
+      })
+      .addCase(getTransactionsByFilter.fulfilled, (state, action) => {
+        state.transactions = action.payload;
+      })
+      .addCase(getTransactionsByFilter.rejected, (state) => {
         state.transactions = [];
       });
   },

@@ -1,32 +1,38 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as ConfigAPI from '../../api/api-config';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import * as ConfigAPI from "../../api/api-config";
 
-export const fetchResidents = createAsyncThunk('/residents', async (token) => {
+export const fetchResidents = createAsyncThunk("/residents", async (token) => {
   const residents = await ConfigAPI.getAllResidents(token);
   return residents;
 });
 
-export const saveResident = createAsyncThunk('/residents', async (guest) => {
-  const residents = await ConfigAPI.createResident(guest);
-  return residents;
-});
+export const saveResident = createAsyncThunk(
+  "/residents/add",
+  async (payload) => {
+    const residents = await ConfigAPI.createResident(payload);
+    return residents;
+  }
+);
 
 const residentSlice = createSlice({
-  name: 'residents',
+  name: "residents",
   initialState: {
     residents: [],
   },
   reducers: {
     getResidents: (state, action) => {
-      state.guests = action.payload;
+      state.residents = action.payload;
+    },
+    add: (state, action) => {
+      state.residents.push(action.payload);
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(saveResident.fulfilled, (state, action) => {
+      .addCase(fetchResidents.fulfilled, (state, action) => {
         state.residents = action.payload;
       })
-      .addCase(saveResident.rejected, (state) => {
+      .addCase(fetchResidents.rejected, (state) => {
         state.residents = [];
       });
   },
