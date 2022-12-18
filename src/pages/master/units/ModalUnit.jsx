@@ -8,7 +8,7 @@ function ModalUnit(props) {
   const [formUnit, setFormUnit] = useState(new ApartmentUnit());
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  props.loading.current = true;
+
   const handleOnChangeUnit = (e) => {
     setFormUnit({
       ...formUnit,
@@ -22,7 +22,7 @@ function ModalUnit(props) {
     formUnit["balcony"] = formUnit.balcony || "Yes";
     formUnit["furnished"] = formUnit.furnished || "Yes";
     formUnit["direction"] = formUnit.direction || "NORTH";
-    formUnit["rentSchema"] = formUnit.rentSchema || "DAILY";
+    formUnit["rentSchema"] = formUnit.rentSchema || "daily";
     formUnit["status"] = "available";
     setLoading(true);
     dispatch(createUnit(formUnit)).then(() => {
@@ -48,11 +48,11 @@ function ModalUnit(props) {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                class="w-6 h-6 text-blue-800"
+                className="w-6 h-6 text-blue-800"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819"
                 />
               </svg>
@@ -62,10 +62,7 @@ function ModalUnit(props) {
               </h1>
             </div>
 
-            <label
-              for="name"
-              className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-            >
+            <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
               Unit Code
             </label>
             <input
@@ -76,10 +73,7 @@ function ModalUnit(props) {
               onChange={handleOnChangeUnit}
             />
 
-            <label
-              for="name"
-              className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-            >
+            <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
               Floor
             </label>
             <input
@@ -90,10 +84,7 @@ function ModalUnit(props) {
               onChange={handleOnChangeUnit}
             />
 
-            <label
-              for="name"
-              className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-            >
+            <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
               Rooms
             </label>
             <input
@@ -103,10 +94,7 @@ function ModalUnit(props) {
               placeholder="Ex: 3"
               onChange={handleOnChangeUnit}
             />
-            <label
-              for="name"
-              className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-            >
+            <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
               Direction
             </label>
 
@@ -116,9 +104,7 @@ function ModalUnit(props) {
               onChange={handleOnChangeUnit}
               className="p-2 mb-2 w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
             >
-              <option value="NORTH" selected>
-                North
-              </option>
+              <option value="NORTH">North</option>
               <option value="NORTHEAST">Northeast</option>
               <option value="EAST">East</option>
               <option value="SOUTHEAST">Southeast</option>
@@ -126,25 +112,18 @@ function ModalUnit(props) {
               <option value="WEST">West</option>
             </select>
 
-            <label
-              for="name"
-              className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-            >
+            <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
               Status
             </label>
             <input
               name="status"
-              id="name"
               className="mb-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-grey-500 rounded border"
               placeholder="Available"
               disabled={true}
             />
 
             <div>
-              <label
-                for="name"
-                className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-              >
+              <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
                 Balcony
               </label>
               <select
@@ -153,18 +132,13 @@ function ModalUnit(props) {
                 onChange={handleOnChangeUnit}
                 className="p-2 mb-2 w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
               >
-                <option value="Yes" selected>
-                  Yes
-                </option>
+                <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
             </div>
 
             <div>
-              <label
-                for="name"
-                className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-              >
+              <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
                 Furnished
               </label>
               <select
@@ -173,18 +147,13 @@ function ModalUnit(props) {
                 onChange={handleOnChangeUnit}
                 className="p-2 mb-2 w-full bg-white text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
               >
-                <option value="Yes" selected>
-                  Yes
-                </option>
+                <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
             </div>
 
             <div>
-              <label
-                for="name"
-                className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-              >
+              <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
                 Rent Schema
               </label>
               <select
@@ -193,18 +162,13 @@ function ModalUnit(props) {
                 onChange={handleOnChangeUnit}
                 className="p-2 mb-2 w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
               >
-                <option value="Daily" selected>
-                  Daily
-                </option>
-                <option value="Weekly">Weekly</option>
-                <option value="Monthly">Monthly</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
               </select>
             </div>
 
-            <label
-              for="name"
-              className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-            >
+            <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
               Rent Price
             </label>
             <input
@@ -216,10 +180,7 @@ function ModalUnit(props) {
               onChange={handleOnChangeUnit}
             />
 
-            <label
-              for="name"
-              className="text-gray-800 text-sm font-bold leading-tight tracking-normal"
-            >
+            <label className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
               Sell Price
             </label>
             <input
@@ -249,7 +210,9 @@ function ModalUnit(props) {
             <button
               className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
               aria-label="close modal"
-              onClick={() => props.setShowModal(false)}
+              onClick={() => {
+                props.setShowModal(false);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -22,7 +22,7 @@ export default function UnitList(props) {
         </thead>
 
         <tbody className="text-gray-600 text-sm font-reguler">
-          {loading.current && (
+          {loading.current && units.length === 0 && (
             <tr className="border-b border-gray-200 hover:bg-white ">
               <td colSpan={12}>
                 <div className="my-3">
@@ -48,17 +48,19 @@ export default function UnitList(props) {
               <td className="py-3 px-3 text-center">{idx + 1}</td>
               <td className="py-3 px-3 text-center">{unit.floor}</td>
               <td className="py-3 px-3 text-center">{unit.unitCode}</td>
-              <td className="py-3 px-3 text-center">{unit.status}</td>
+              <td className="py-3 px-3 text-center uppercase">{unit.status}</td>
               <td className="py-3 px-3 text-center">{unit.sellPrice}</td>
               <td className="py-3 px-3 text-center">{unit.rentPrice}</td>
-              <td className="py-3 px-3 text-center">{unit.rentSchema}</td>
+              <td className="py-3 px-3 text-center uppercase">
+                {unit.rentSchema}
+              </td>
               <td className="py-3 px-3 text-center">
                 {unit.status === "available" ? "-" : "resident"}
               </td>
               <td className="py-3 px-3 text-center">
                 <button
                   onClick={() => handleDetailClicked(idx)}
-                  className="py-1 px-8  bg-blue-500 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl"
+                  className="py-1 px-4  bg-green-400 hover:bg-green-500 font-bold text-md rounded-md text-white drop-shadow-3xl"
                 >
                   Details
                 </button>

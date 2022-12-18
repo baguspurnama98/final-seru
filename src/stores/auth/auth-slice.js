@@ -22,14 +22,15 @@ const userSlice = createSlice({
       state.userLogged = undefined;
     },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
         state.userLogged = action.payload;
         state.isLogin = true;
         if (action.payload.token) {
-          sessionStorage.setItem("userLogged", JSON.stringify(action.payload));
-          sessionStorage.setItem("isLogin", JSON.stringify(true));
+          localStorage.setItem("userLogged", JSON.stringify(action.payload));
+          localStorage.setItem("isLogin", JSON.stringify(true));
         }
       })
       .addCase(loginUser.rejected, (state) => {

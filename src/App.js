@@ -19,12 +19,12 @@ function App() {
         <MainLayout>
           <Routes>
             <Route path="*" element={<ErrorPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="login" element={<LoginPage />} />
             <Route path="" element={<LandingPage />} />
             <Route element={<ProtectRoute />}>
-              <Route path="/transactions" element={<TransactionsPage />} />
-              <Route path="/units" element={<UnitPage />} />
-              <Route path="/home" element={<HomePage />} />
+              <Route path="transactions" element={<TransactionsPage />} />
+              <Route path="units" element={<UnitPage />} />
+              <Route path="home" element={<HomePage />} />
             </Route>
           </Routes>
         </MainLayout>

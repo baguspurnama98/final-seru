@@ -11,6 +11,14 @@ export const createUnit = createAsyncThunk("units/create", async (data) => {
   return units;
 });
 
+export const getUnitByFilter = createAsyncThunk(
+  "units/filter",
+  async (data) => {
+    const units = await API.getUnitsByFilter(data);
+    return units;
+  }
+);
+
 // export const deleteUnit = createAsyncThunk("units/delete", async (token, id)=>{
 //   const units = await API.saveUnits(token, id);
 //   return units;
@@ -43,6 +51,12 @@ const unitsSlice = createSlice({
         state.units = action.payload;
       })
       .addCase(getUnits.rejected, (state, action) => {
+        state.units = [];
+      })
+      .addCase(getUnitByFilter.fulfilled, (state, action) => {
+        state.units = action.payload;
+      })
+      .addCase(getUnitByFilter.rejected, (state, action) => {
         state.units = [];
       });
   },

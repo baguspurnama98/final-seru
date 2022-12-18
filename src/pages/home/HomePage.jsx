@@ -5,7 +5,7 @@ import { getUnits } from "../../stores/master/units-slice";
 
 function HomePage() {
   const loading = useRef(true);
-  const { userLogged } = useSelector((store) => store.users);
+  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
   const { units } = useSelector((store) => store.units);
   const dispatch = useDispatch();
 
@@ -15,10 +15,10 @@ function HomePage() {
 
   useEffect(() => {
     if (loading.current) {
-      dispatch(getUnits(userLogged.token));
+      dispatch(getUnits());
       loading.current = false;
     }
-  }, [dispatch, userLogged.token]);
+  }, [dispatch, loading]);
 
   return (
     <>

@@ -9,8 +9,8 @@ function Header() {
   const dispatch = useDispatch();
   const onHandleLogout = () => {
     dispatch(logout());
-    sessionStorage.removeItem("isLogin");
-    sessionStorage.removeItem("userLogged");
+    localStorage.removeItem("isLogin");
+    localStorage.removeItem("userLogged");
     navigate("/");
   };
 
@@ -38,7 +38,7 @@ function Header() {
             </ul>
           </nav>
 
-          {sessionStorage.getItem("isLogin") && (
+          {localStorage.getItem("isLogin") && (
             <button
               onClick={onHandleLogout}
               className="bg-white font-semibold text-black  py-1 px-6 rounded border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
