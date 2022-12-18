@@ -24,6 +24,8 @@ function ModalUnit(props) {
     formUnit["direction"] = formUnit.direction || "NORTH";
     formUnit["rentSchema"] = formUnit.rentSchema || "daily";
     formUnit["status"] = "available";
+    formUnit["rentPrice"] = Number(formUnit.rentPrice);
+    formUnit["sellPrice"] = Number(formUnit.sellPrice);
     setLoading(true);
     dispatch(createUnit(formUnit)).then(() => {
       setLoading(false);

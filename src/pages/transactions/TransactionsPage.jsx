@@ -13,11 +13,13 @@ function TransactionsPage() {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [showResidentModal, setShowResidentModal] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+
   const [filter, setFilter] = useState({
     doFilter: false,
     floor: 0,
     status: "",
   });
+
   const [loading, setLoading] = useState(true);
 
   const { transactions } = useSelector((store) => store[transactionSlice.name]);
@@ -111,9 +113,35 @@ function TransactionsPage() {
                   </button>
                 </form>
               </div>
+
+              <form className="w-1/3 self-end">
+                <label
+                  className="mb-2 text-sm font-medium text-gray-900 sr-only"
+                  for="default-search"
+                >
+                  Search
+                </label>
+                <div className="relative">
+                  <input
+                    className="block py-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                    type="search"
+                    id="default-search"
+                    placeholder="Search Name"
+                    required
+                  />
+                  <button
+                    className="text-white absolute right-1 bottom-1.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                    type="submit"
+                  >
+                    Search
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div className="text-right my-3">
               <button
                 onClick={() => setShowTransactionModal(true)}
-                className="py-3 px-8  bg-[#2469a5]  hover:bg-blue-500 font-bold text-md rounded-md text-white drop-shadow-3xl self-end"
+                className="py-3 px-8  bg-[#2469a5] hover:bg-blue-500 font-bold text-md rounded-md text-white drop-shadow-3xl self-end"
               >
                 Add Transaction
               </button>

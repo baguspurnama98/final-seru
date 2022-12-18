@@ -31,9 +31,26 @@ export async function getUnitsByFilter(payload) {
     url.push(`rentSchema=${payload.rentSchema}`);
   }
   url = url.join("&");
-
+  console.log(url);
   const response = await fetch(
-    `${BASE_API_URL}/units?_expand=resident?${url}`,
+    `${BASE_API_URL}/units?${url}&_expand=resident`,
+    {
+      headers,
+      method: "GET",
+    }
+  );
+  return await response.json();
+}
+
+export async function sortUnits(payload) {
+  headers["Authorization"] = JSON.parse(
+    localStorage.getItem("userLogged")
+  ).token;
+  console.log(
+    `${BASE_API_URL}/units?_sort=${payload.price}&_order=${payload.order}&_expand=resident`
+  );
+  const response = await fetch(
+    `${BASE_API_URL}/units?_sort=${payload.price}&_order=${payload.order}&_expand=resident`,
     {
       headers,
       method: "GET",

@@ -18,6 +18,10 @@ export const getUnitByFilter = createAsyncThunk(
     return units;
   }
 );
+export const sortUnits = createAsyncThunk("units/filter", async (data) => {
+  const units = await API.sortUnits(data);
+  return units;
+});
 
 export const getUnitsById = createAsyncThunk("units/id", async (id) => {
   const units = await API.getUnitsById(id);
