@@ -7,11 +7,13 @@ import UnitList from './UnitList';
 import ModalResident from '../residents/ModalResident';
 import ResidentList from '../residents/ResidentList';
 import { fetchResidents } from '../../../stores/master/resident-slice';
+import ResidentPage from '../residents/ResidentPage';
 
 function UnitPage() {
   const [showModal, setShowModal] = useState(false);
   const [showModalDetail, setShowModalDetail] = useState(false);
   const [showModalResident, setShowModalResident] = useState(false);
+  const [showModalResidentPage, setShowModalResidentPage] = useState(false);
   const [dataSelected, setDataSelected] = useState(undefined);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -87,6 +89,10 @@ function UnitPage() {
       )}
       {showModalResident && (
         <ModalResident setShowModalResident={setShowModalResident} />
+      )}
+
+      {showModalResidentPage && (
+        <ResidentPage setShowModalResidentPage={setShowModalResidentPage} />
       )}
 
       <div className='overflow-x-auto'>

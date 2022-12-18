@@ -22,7 +22,7 @@ function App() {
         <MainLayout>
           <Routes>
             <Route path='*' element={<ErrorPage />} />
-            <Route path='login' element={<UnitPage />} />
+            <Route path='login' element={<LoginPage />} />
             <Route path='' element={<LandingPage />} />
             <Route element={<ProtectRoute />}>
               <Route path='transactions' element={<TransactionsPage />} />

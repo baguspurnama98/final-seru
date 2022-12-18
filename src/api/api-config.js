@@ -1,27 +1,27 @@
-const BASE_API_URL = "http://localhost:4000";
+const BASE_API_URL = 'http://localhost:4000';
 
 const headers = {
-  Accept: "application/json",
-  "Content-Type": "application/json",
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
 };
-console.log(localStorage.getItem("userLogged"));
-if (localStorage.getItem("userLogged")) {
-  headers["Authorization"] = `${
-    JSON.parse(localStorage.getItem("userLogged")).token
+console.log(localStorage.getItem('userLogged'));
+if (localStorage.getItem('userLogged')) {
+  headers['Authorization'] = `${
+    JSON.parse(localStorage.getItem('userLogged')).token
   }`;
 }
 
 export async function getAllUnits() {
   const response = await fetch(`${BASE_API_URL}/units?_expand=resident`, {
     headers,
-    method: "GET",
+    method: 'GET',
   });
   return await response.json();
 }
 
 export async function getUnitsByFilter(payload) {
   let url = [];
-  if (payload.floor !== "0" && payload.floor) {
+  if (payload.floor !== '0' && payload.floor) {
     url.push(`floor=${payload.floor}`);
   }
   if (payload.status) {
@@ -30,13 +30,13 @@ export async function getUnitsByFilter(payload) {
   if (payload.rentSchema) {
     url.push(`rentSchema=${payload.rentSchema}`);
   }
-  url = url.join("&");
+  url = url.join('&');
 
   const response = await fetch(
     `${BASE_API_URL}/units?_expand=resident?${url}`,
     {
       headers,
-      method: "GET",
+      method: 'GET',
     }
   );
   return await response.json();
@@ -45,7 +45,7 @@ export async function getUnitsByFilter(payload) {
 export async function createUnit(data) {
   const response = await fetch(`${BASE_API_URL}/units`, {
     headers,
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(data),
   });
   return await response.json();
@@ -54,7 +54,7 @@ export async function createUnit(data) {
 export async function getUnitsById(id) {
   const response = await fetch(`${BASE_API_URL}/units/${id}?_expand=resident`, {
     headers,
-    method: "GET",
+    method: 'GET',
   });
   return await response.json();
 }
@@ -62,7 +62,7 @@ export async function getUnitsById(id) {
 export async function updateUnit(unit) {
   const response = await fetch(`${BASE_API_URL}/units/${unit.id}`, {
     headers,
-    method: "PUT",
+    method: 'PUT',
     body: JSON.stringify(unit),
   });
   return await response.json();
@@ -71,7 +71,7 @@ export async function updateUnit(unit) {
 export async function deleteUnit(id) {
   const response = await fetch(`${BASE_API_URL}/units/${id}`, {
     headers,
-    method: "DELETE",
+    method: 'DELETE',
   });
   return await response.json();
 }
@@ -83,7 +83,7 @@ export async function getAllTransaction() {
     `${BASE_API_URL}/transactions?_expand=resident&_expand=unit`,
     {
       headers,
-      method: "GET",
+      method: 'GET',
     }
   );
 
@@ -95,7 +95,7 @@ export async function getTransactionById(payload) {
     `${BASE_API_URL}/transactions/${payload.id}?_expand=resident&_expand=unit`,
     {
       headers,
-      method: "GET",
+      method: 'GET',
     }
   );
   return await response.json();
@@ -104,7 +104,7 @@ export async function getTransactionById(payload) {
 export async function createTransaction(data) {
   const response = await fetch(`${BASE_API_URL}/transactions`, {
     headers,
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(data),
   });
   return await response.json();
@@ -115,7 +115,7 @@ export async function createTransaction(data) {
 export async function getAllResidents() {
   const response = await fetch(`${BASE_API_URL}/residents`, {
     headers,
-    method: "GET",
+    method: 'GET',
   });
 
   return await response.json();
@@ -124,8 +124,16 @@ export async function getAllResidents() {
 export async function createResident(resident) {
   const response = await fetch(`${BASE_API_URL}/residents`, {
     headers,
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(resident),
+  });
+  return await response.json();
+}
+
+export async function getResidentById(payload) {
+  const response = await fetch(`${BASE_API_URL}/residents/${payload.id}`, {
+    headers,
+    method: 'GET',
   });
   return await response.json();
 }
