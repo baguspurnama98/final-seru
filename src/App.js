@@ -13,6 +13,7 @@ import UnitPage from "./pages/master/units/UnitPage";
 import HomePage from "./pages/home/HomePage";
 import DetailPageUnit from "./pages/master/units/DetailPage";
 import ResidentPage from "./pages/master/residents/ResidentPage";
+import DetailTransactionPage from "./pages/transactions/DetailTransactionPage";
 
 function App() {
   return (
@@ -29,6 +30,10 @@ function App() {
               <Route path="unit/:id" element={<DetailPageUnit />} />
               <Route path="home" element={<HomePage />} />
               <Route path="resident/:id" element={<ResidentPage />} />
+              <Route
+                path="transactions/:id"
+                element={<DetailTransactionPage />}
+              />
             </Route>
           </Routes>
         </MainLayout>

@@ -71,3 +71,46 @@ export async function deleteUnit(id) {
   });
   return await response.json();
 }
+
+// ----------------
+
+export async function getAllTransaction(token) {
+  headers["Authorization"] = `${token}`;
+  const response = await fetch(`${BASE_API_URL}/transactions`, {
+    headers,
+    method: "GET",
+  });
+
+  return await response.json();
+}
+
+export async function getTransactionById(payload) {
+  headers["Authorization"] = `${payload.token}`;
+  const response = await fetch(
+    `${BASE_API_URL}/transactions/${payload.id}?_expand=resident&_expand=unit`,
+    {
+      headers,
+      method: "GET",
+    }
+  );
+  return await response.json();
+}
+
+export async function getAllResidents(token) {
+  headers["Authorization"] = `${token}`;
+  const response = await fetch(`${BASE_API_URL}/residents`, {
+    headers,
+    method: "GET",
+  });
+
+  return await response.json();
+}
+
+export async function createResident(resident) {
+  const response = await fetch(`${BASE_API_URL}/residents`, {
+    headers,
+    method: "POST",
+    body: JSON.stringify(resident),
+  });
+  return await response.json();
+}

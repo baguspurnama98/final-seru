@@ -1,111 +1,222 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import userSlice from '../../stores/auth/auth-slice';
+import transactionSlice, {
+  fetchTransactions,
+} from '../../stores/transaction/transaction-slice';
+import ResidentPage from '../master/residents/ResidentPage';
 import ModalTransaction from './ModalTransaction';
 
 function TransactionsPage() {
-  const [showModal, setShowModal] = useState(false);
-  const [transactions] = useState([
-    {
-      id: 1,
-      floor: '10',
-      unit: '10AA',
-      resident: 'Paijo Sukirman',
-      status: 'sold',
-      price: 'IDR 500.000.000',
-      transactionPrice: 'IDR 550.000.000',
-      profit: 'IDR 50.000.000',
-      transactionDate: '19-Sep-2022',
-      rentalSchema: '-',
-      startEndDate: '-',
-      billingDate: '-',
-    },
-    {
-      id: 2,
-      floor: '10',
-      unit: '10AA',
-      resident: 'Bagus Purnama',
-      status: 'rented',
-      price: 'IDR 4.000.000',
-      transactionPrice: 'IDR 3.500.000',
-      profit: '(IDR 500.000)',
-      transactionDate: '20-Sep-2022',
-      rentalSchema: 'monthly',
-      startEndDate: '20-Sep-2022 / 19-Mar-2022',
-      billingDate: '20-Oct-2022',
-    },
-  ]);
+  const [showTransactionModal, setShowTransactionModal] = useState(false);
+  const [showResidentModal, setShowResidentModal] = useState(false);
+  const [filter, setFilter] = useState({
+    floor: '2',
+    status: 'available',
+  });
+  const { userLogged } = useSelector((store) => store[userSlice.name]);
+  const { transactions } = useSelector((store) => store[transactionSlice.name]);
+  const { units } = useSelector((store) => store.units);
+  const { residents } = useSelector((store) => store.residents);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTransactions(userLogged.token));
+  }, []);
+
+  const handleOnChangeFilter = (e) => {
+    setFilter({ ...filter, [e.target.name]: e.target.value });
+  };
+
+  const [dataSelected, setDataSelected] = useState([]);
+
+  const handleFilter = (e) => {
+    e.preventDefault();
+    console.log(filter);
+  };
+
+  const handleOnChangeDataSelected = (e) => {
+    setDataSelected({
+      ...dataSelected,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    // dataSelected['fullname'] = '' || residents[0].fullname;
+    // dataSelected['unitCode'] = '' || units[0].unitCode;
+
+    // console.log(residents[0].fullname);
+    // console.log(residents);
+    console.log(transactions.units);
+
+    // dispatch(saveResident(formResident));
+  };
+
+  const handleTransactionData = (e) => {};
 
   return (
     <>
-      {showModal && <ModalTransaction setShowModal={setShowModal} />}
+      {showTransactionModal && (
+        <ModalTransaction
+          setShowTransactionModal={setShowTransactionModal}
+          handleOnChangeDataSelected={handleOnChangeDataSelected}
+          handleSubmitForm={handleSubmitForm}
+        />
+      )}
+      {showResidentModal && (
+        <ResidentPage setShowResidentModal={setShowResidentModal} />
+      )}
 
-      <div class='overflow-x-auto'>
-        <div class='min-w-screen min-h-screen bg-white flex '>
-          <div class='w-full px-20 my-10'>
-            <div className='flex justify-end my-2'>
+      <div className='overflow-x-auto'>
+        <div className='min-w-screen min-h-screen  bg-white flex '>
+          <div className='w-full px-20 my-10'>
+            <div className='flex justify-between my-2'>
+              <div className='border p-2 rounded-lg'>
+                <h4 className='text-center font-bold'>Filter Data Form</h4>
+                <form
+                  className=' grid grid-cols-2 gap-2'
+                  onSubmit={handleFilter}
+                >
+                  <div>
+                    <label className='text-gray-800 text-sm font-bold'>
+                      Floor
+                    </label>
+                    <select
+                      name='floor'
+                      onChange={handleOnChangeFilter}
+                      value={filter.floor}
+                      className='p-2  w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none'
+                    >
+                      {[...Array(10).keys()].map((item, idx) => (
+                        <option key={idx} value={idx + 1}>
+                          {item + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className='text-gray-800 text-sm font-bold'>
+                      Status
+                    </label>
+                    <select
+                      name='status'
+                      value={filter.status}
+                      onChange={handleOnChangeFilter}
+                      className='p-2 w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none'
+                    >
+                      <option value='available'>Available</option>
+                      <option value='unavailable'>Unavailable</option>
+                      <option value='rented'>Rented</option>
+                      <option value='sold'>Sold</option>
+                    </select>
+                  </div>
+                  <div></div>
+
+                  <div className='flex justify-end items-center'>
+                    <button
+                      type='submit'
+                      className='bg-rose-400 py-2 px-4 rounded-lg text-white hover:bg-rose-500 se'
+                    >
+                      Filter Data
+                    </button>
+                  </div>
+                </form>
+              </div>
               <button
-                onClick={() => setShowModal(true)}
-                className='py-4 px-8  bg-[#2469a5]  hover:bg-blue-500 font-bold text-md rounded-md text-white drop-shadow-3xl'
+                onClick={() => setShowTransactionModal(true)}
+                className='py-3 px-8  bg-[#2469a5]  hover:bg-blue-500 font-bold text-md rounded-md text-white drop-shadow-3xl self-end'
               >
                 Add Transaction
               </button>
             </div>
-            <div class='bg-white shadow-md rounded '>
-              <table class='min-w-max w-full table-auto'>
+            <div className='bg-white shadow-md rounded '>
+              <table className='min-w-max w-full table-auto'>
                 <thead>
-                  <tr class='bg-gray-200 text-gray-600 uppercase text-sm leading-normal'>
-                    <th class='py-2 px-2 w-2.5 text-center'>#</th>
-                    <th class='py-2 px-2 w-10 text-center'>Floor</th>
-                    <th class='py-2 px-2 w-10 text-center'>Unit</th>
-                    <th class='py-2 px-2 w-10 text-center'>Resident</th>
-                    <th class='py-2 px-2 w-10 text-center'>Status</th>
-                    <th class='py-2 px-2 w-10 text-center'>Price</th>
-                    <th class='py-2 px-2 w-10 text-center'>
+                  <tr className='bg-gray-200 text-gray-600 uppercase text-sm leading-normal'>
+                    <th className='py-2 px-2 w-2.5 text-center'>#</th>
+                    <th className='py-2 px-2 w-10 text-center'>Floor</th>
+                    <th className='py-2 px-2 w-10 text-center'>Unit</th>
+                    <th className='py-2 px-2 w-10 text-center'>Resident</th>
+                    <th className='py-2 px-2 w-10 text-center'>Status</th>
+                    <th className='py-2 px-2 w-10 text-center'>Price</th>
+                    <th className='py-2 px-2 w-10 text-center'>
                       Transaction Price
                     </th>
-                    <th class='py-2 px-2 w-10 text-center'>Profit</th>
-                    <th class='py-2 px-2 w-10 text-center'>Transaction Date</th>
-                    <th class='py-2 px-2 w-10 text-center'>Rental Schema</th>
-                    <th class='py-2 px-2 w-10 text-center'>Start/End Date</th>
-                    <th class='py-2 px-2 w-10 text-center'>Billing Date</th>
+                    <th className='py-2 px-2 w-10 text-center'>Profit</th>
+                    <th className='py-2 px-2 w-10 text-center'>
+                      Transaction Date
+                    </th>
+                    <th className='py-2 px-2 w-10 text-center'>
+                      Rental Schema
+                    </th>
+                    <th className='py-2 px-2 w-10 text-center'>
+                      Start/End Date
+                    </th>
+                    <th className='py-2 px-2 w-10 text-center'>Billing Date</th>
+                    <th className='py-2 px-2 w-10 text-center'>Details</th>
                   </tr>
                 </thead>
 
-                <tbody class='text-gray-600 text-sm font-reguler'>
+                <tbody className='text-gray-600 text-sm font-reguler'>
                   {transactions.map((transaction, idx) => (
                     <tr
                       key={idx}
-                      class='border-b border-gray-200 hover:bg-white'
+                      className='border-b border-gray-200 hover:bg-white'
                     >
-                      <td class='py-3 px-3 text-center'>{transaction.id}</td>
-
-                      <td class='py-3 px-3 text-center'>{transaction.floor}</td>
-
-                      <td class='py-3 px-3 text-center'>{transaction.unit}</td>
-                      <td class='py-3 px-3 text-center'>
-                        {transaction.resident}
+                      <td className='py-3 px-3 text-center'>
+                        {transaction.id}
                       </td>
-                      <td class='py-3 px-3 text-center'>
+
+                      <td className='py-3 px-3 text-center'>
+                        {transaction.floor}
+                      </td>
+
+                      <td className='py-3 px-3 text-center'>
+                        {transaction.unit}
+                      </td>
+                      <td className='py-3 px-3 text-center'>
+                        <button
+                          className='bg-transparent text-blue-700'
+                          onClick={() => setShowResidentModal(true)}
+                        >
+                          {transaction.resident}
+                        </button>
+                      </td>
+                      <td className='py-3 px-3 text-center'>
                         {transaction.status}
                       </td>
-                      <td class='py-3 px-3 text-center'>{transaction.price}</td>
-                      <td class='py-3 px-3 text-center'>
+                      <td className='py-3 px-3 text-center'>
+                        {transaction.price}
+                      </td>
+                      <td className='py-3 px-3 text-center'>
                         {transaction.transactionPrice}
                       </td>
-                      <td class='py-3 px-3 text-center'>
+                      <td className='py-3 px-3 text-center'>
                         {transaction.profit}
                       </td>
-                      <td class='py-3 px-3 text-center'>
+                      <td className='py-3 px-3 text-center'>
                         {transaction.transactionDate}
                       </td>
-                      <td class='py-3 px-3 text-center'>
+                      <td className='py-3 px-3 text-center'>
                         {transaction.rentalSchema}
                       </td>
-                      <td class='py-3 px-3 text-center'>
+                      <td className='py-3 px-3 text-center'>
                         {transaction.startEndDate}
                       </td>
 
-                      <td class='py-3 px-3 text-center'>
+                      <td className='py-3 px-3 text-center'>
                         {transaction.billingDate}
+                      </td>
+                      <td className='py-3 px-3 text-center'>
+                        <Link to={`/transactions/${transaction.id}`}>
+                          <button className='py-1 px-2  bg-gray-400 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl'>
+                            Details
+                          </button>
+                        </Link>
                       </td>
                     </tr>
                   ))}
