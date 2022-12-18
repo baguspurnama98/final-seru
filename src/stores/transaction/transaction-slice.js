@@ -1,24 +1,29 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as ConfigAPI from '../../api/api-config';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import * as ConfigAPI from "../../api/api-config";
 
-export const fetchTransactions = createAsyncThunk(
-  '/transactions',
-  async (token) => {
-    const transactions = await ConfigAPI.getAllTransaction(token);
-    return transactions;
-  }
-);
+export const fetchTransactions = createAsyncThunk("/transactions", async () => {
+  const transactions = await ConfigAPI.getAllTransaction();
+  return transactions;
+});
 
 export const fetchTransactionsbyId = createAsyncThunk(
-  '/transactions/id',
+  "/transactions/id",
   async (payload) => {
     const transactions = await ConfigAPI.getTransactionById(payload);
     return transactions;
   }
 );
 
+export const createTransaction = createAsyncThunk(
+  "transactions/create",
+  async (data) => {
+    const units = await ConfigAPI.createTransaction(data);
+    return units;
+  }
+);
+
 const transactionSlice = createSlice({
-  name: 'transactions',
+  name: "transactions",
   initialState: {
     transactions: [],
   },

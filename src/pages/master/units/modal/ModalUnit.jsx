@@ -193,9 +193,9 @@ function ModalUnit(props) {
               onChange={handleOnChangeUnit}
             />
 
-            <div className="flex items-center justify-end w-full mt-4">
+            <div className="flex items-center justify-end w-full mt-4 space-x-3">
               <button
-                className=" bg-gray-100  border-gray-200 hover:bg-gray-200  transition duration-150 text-gray-800 ease-in-out border rounded px-8 py-2 text-sm mr-3"
+                className=" bg-gray-100  border-gray-200 hover:bg-gray-200  transition duration-150 text-gray-800 ease-in-out border rounded px-8 py-2 text-sm "
                 onClick={() => props.setShowModal(false)}
               >
                 Cancel

@@ -20,7 +20,6 @@ function UnitPage() {
 
   const { units } = useSelector((store) => store.units);
   const dispatch = useDispatch();
-  // const loading = useRef(true);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
