@@ -19,15 +19,26 @@ export const getUnitByFilter = createAsyncThunk(
   }
 );
 
-// export const deleteUnit = createAsyncThunk("units/delete", async (token, id)=>{
-//   const units = await API.saveUnits(token, id);
-//   return units;
-// })
+export const getUnitsById = createAsyncThunk("units/id", async (id) => {
+  const units = await API.getUnitsById(id);
+  return units;
+});
+
+export const saveUpdate = createAsyncThunk("units/update", async (unit) => {
+  const units = await API.updateUnit(unit);
+  return units;
+});
+
+export const deleteUnit = createAsyncThunk("units/delete", async (id) => {
+  const units = await API.deleteUnit(id);
+  return units;
+});
 
 const unitsSlice = createSlice({
   name: "units",
   initialState: {
     units: [],
+    unitSelected: undefined,
   },
   reducers: {
     getData: (state, action) => {
@@ -58,6 +69,12 @@ const unitsSlice = createSlice({
       })
       .addCase(getUnitByFilter.rejected, (state, action) => {
         state.units = [];
+      })
+      .addCase(getUnitsById.fulfilled, (state, action) => {
+        state.unitSelected = action.payload;
+      })
+      .addCase(getUnitsById.rejected, (state, action) => {
+        state.unitSelected = undefined;
       });
   },
 });

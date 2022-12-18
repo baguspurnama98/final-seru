@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUnitByFilter, getUnits } from "../../../stores/master/units-slice";
-import ModalUnit from "./ModalUnit";
-import ModalDetailUnit from "./ModalDetailUnit";
+import ModalUnit from "./modal/ModalUnit";
+import ModalDetailUnit from "./modal/ModalDetailUnit";
 import UnitList from "./UnitList";
 
 function UnitPage() {
@@ -20,23 +20,24 @@ function UnitPage() {
 
   const { units } = useSelector((store) => store.units);
   const dispatch = useDispatch();
-  const loading = useRef(true);
+  // const loading = useRef(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (loading.current) {
+    if (loading) {
       if (filter.doFilter === false) {
-        dispatch(getUnits());
-        loading.current = false;
+        dispatch(getUnits()).then(() => setLoading(false));
       } else {
-        dispatch(getUnitByFilter(filter));
-        setFilter({ ...filter, doFilter: false });
-        loading.current = false;
+        dispatch(getUnitByFilter(filter)).then(() => {
+          setFilter({ ...filter, doFilter: false });
+          setLoading(false);
+        });
       }
     }
-  }, [dispatch, refreshKey]);
+  }, [dispatch, refreshKey, filter, setFilter, setLoading, loading]);
 
   const resetFilter = () => {
-    loading.current = true;
+    setLoading(true);
     setFilter({
       doFilter: false,
       floor: 0,
@@ -58,7 +59,7 @@ function UnitPage() {
   const handleFilter = (e) => {
     e.preventDefault();
     setFilter({ ...filter, doFilter: true });
-    loading.current = true;
+    setLoading(true);
     setRefreshKey(refreshKey + 1);
   };
 
@@ -70,6 +71,7 @@ function UnitPage() {
           setRefreshKey={setRefreshKey}
           refreshKey={refreshKey}
           loading={loading}
+          setLoading={setLoading}
         />
       )}
       {showModalDetail && (

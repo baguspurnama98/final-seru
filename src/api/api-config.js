@@ -1,5 +1,5 @@
 const BASE_API_URL = "http://localhost:4000";
-const userLogged = JSON.parse(localStorage.getItem("userLogged")) || "";
+const userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
 const headers = {
   Accept: "application/json",
@@ -8,7 +8,7 @@ const headers = {
 };
 
 export async function getAllUnits() {
-  const response = await fetch(`${BASE_API_URL}/units`, {
+  const response = await fetch(`${BASE_API_URL}/units?_expand=resident`, {
     headers,
     method: "GET",
   });
@@ -28,10 +28,13 @@ export async function getUnitsByFilter(payload) {
   }
   url = url.join("&");
 
-  const response = await fetch(`${BASE_API_URL}/units?${url}`, {
-    headers,
-    method: "GET",
-  });
+  const response = await fetch(
+    `${BASE_API_URL}/units?_expand=resident?${url}`,
+    {
+      headers,
+      method: "GET",
+    }
+  );
   return await response.json();
 }
 
@@ -44,21 +47,27 @@ export async function createUnit(data) {
   return await response.json();
 }
 
-// export async function updateGuest(guest) {
-//   const response = await fetch(`${apiGuestURL}/${guest.id}`, {
-//     headers,
-//     method: "PUT", // perhatikan request method-nya dari dokumentasi BE untuk setiap request update data.
-//     body: JSON.stringify(guest),
-//   });
+export async function getUnitsById(id) {
+  const response = await fetch(`${BASE_API_URL}/units/${id}?_expand=resident`, {
+    headers,
+    method: "GET",
+  });
+  return await response.json();
+}
 
-//   return await response.json();
-// }
+export async function updateUnit(unit) {
+  const response = await fetch(`${BASE_API_URL}/units/${unit.id}`, {
+    headers,
+    method: "PUT",
+    body: JSON.stringify(unit),
+  });
+  return await response.json();
+}
 
-// export async function deleteGuest(id) {
-//   const response = await fetch(`${apiGuestURL}/${id}`, {
-//     headers,
-//     method: "DELETE",
-//   });
-
-//   return await response.json();
-// }
+export async function deleteUnit(id) {
+  const response = await fetch(`${BASE_API_URL}/units/${id}`, {
+    headers,
+    method: "DELETE",
+  });
+  return await response.json();
+}

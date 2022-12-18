@@ -1,8 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Pulse from "../../../assets/Pulse";
 
 export default function UnitList(props) {
   const { loading, units, handleDetailClicked } = props;
+  // console.log(units);
   return (
     <div>
       <table className="min-w-max w-full table-auto">
@@ -22,7 +24,7 @@ export default function UnitList(props) {
         </thead>
 
         <tbody className="text-gray-600 text-sm font-reguler">
-          {loading.current && units.length === 0 && (
+          {loading && units.length === 0 && (
             <tr className="border-b border-gray-200 hover:bg-white ">
               <td colSpan={12}>
                 <div className="my-3">
@@ -31,7 +33,7 @@ export default function UnitList(props) {
               </td>
             </tr>
           )}
-          {!loading.current && Array.isArray(units) && units.length === 0 && (
+          {!loading && units.length === 0 && (
             <tr className="border-b border-gray-200 hover:bg-white ">
               <td colSpan={12}>
                 <div className="my-3 text-center text-blue-700 font-bold text-xl">
@@ -55,7 +57,16 @@ export default function UnitList(props) {
                 {unit.rentSchema}
               </td>
               <td className="py-3 px-3 text-center">
-                {unit.status === "available" ? "-" : "resident"}
+                {unit.resident ? (
+                  <Link
+                    to={`/resident/${unit.resident.id}`}
+                    className="hover:text-blue-600 "
+                  >
+                    {unit.resident.fullName}
+                  </Link>
+                ) : (
+                  "-"
+                )}
               </td>
               <td className="py-3 px-3 text-center">
                 <button
@@ -67,9 +78,14 @@ export default function UnitList(props) {
               </td>
 
               <td className="py-3 px-3 text-center">
-                <button className="py-1 px-2  bg-blue-500 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl">
-                  Manage
-                </button>
+                {["sold", "rented"].includes(unit.status) && "-"}
+                {!["sold", "rented"].includes(unit.status) && (
+                  <Link to={`/unit/${unit.id}`}>
+                    <button className="py-1 px-2  bg-blue-500 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl">
+                      Manage
+                    </button>
+                  </Link>
+                )}
               </td>
             </tr>
           ))}

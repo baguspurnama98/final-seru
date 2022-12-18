@@ -46,5 +46,6 @@ export class ApartmentUnit {
     this.rentPrice = rentPrice || 0;
     this.rentSchema = rentSchema || ""; // (value from ApartmentRentSchema)
     this.sellPrice = sellPrice || 0;
+    this.residentId = "";
   }
 }

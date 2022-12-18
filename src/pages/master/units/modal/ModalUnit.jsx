@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import Spinner from "../../../assets/Spinner";
-import { ApartmentUnit } from "../../../stores/master/master-model";
-import { createUnit } from "../../../stores/master/units-slice";
+import Spinner from "../../../../assets/Spinner";
+import { ApartmentUnit } from "../../../../stores/master/master-model";
+import { createUnit } from "../../../../stores/master/units-slice";
 
 function ModalUnit(props) {
   const [formUnit, setFormUnit] = useState(new ApartmentUnit());
@@ -29,6 +29,7 @@ function ModalUnit(props) {
       setLoading(false);
       props.setShowModal(false);
       props.setRefreshKey(props.refreshKey + 1);
+      props.setLoading(true);
     });
   };
 
