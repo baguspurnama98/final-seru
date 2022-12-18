@@ -4,7 +4,14 @@ import Pulse from "../../../assets/Pulse";
 
 export default function UnitList(props) {
   const { loading, units, handleDetailClicked } = props;
-  // console.log(units);
+  const formatRupiah = (formUnit) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(formUnit);
+  };
+
   return (
     <div>
       <table className="min-w-max w-full table-auto">
@@ -51,8 +58,12 @@ export default function UnitList(props) {
               <td className="py-3 px-3 text-center">{unit.floor}</td>
               <td className="py-3 px-3 text-center">{unit.unitCode}</td>
               <td className="py-3 px-3 text-center uppercase">{unit.status}</td>
-              <td className="py-3 px-3 text-center">{unit.sellPrice}</td>
-              <td className="py-3 px-3 text-center">{unit.rentPrice}</td>
+              <td className="py-3 px-3 text-center">
+                {formatRupiah(unit.sellPrice)}
+              </td>
+              <td className="py-3 px-3 text-center">
+                {formatRupiah(unit.rentPrice)}
+              </td>
               <td className="py-3 px-3 text-center uppercase">
                 {unit.rentSchema}
               </td>
