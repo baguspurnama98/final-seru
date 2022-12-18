@@ -17,6 +17,8 @@ function TransactionsPage() {
   });
   const { userLogged } = useSelector((store) => store[userSlice.name]);
   const { transactions } = useSelector((store) => store[transactionSlice.name]);
+  const { units } = useSelector((store) => store.units);
+  const { residents } = useSelector((store) => store.residents);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,15 +29,42 @@ function TransactionsPage() {
     setFilter({ ...filter, [e.target.name]: e.target.value });
   };
 
+  const [dataSelected, setDataSelected] = useState([]);
+
   const handleFilter = (e) => {
     e.preventDefault();
     console.log(filter);
   };
 
+  const handleOnChangeDataSelected = (e) => {
+    setDataSelected({
+      ...dataSelected,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    // dataSelected['fullname'] = '' || residents[0].fullname;
+    // dataSelected['unitCode'] = '' || units[0].unitCode;
+
+    // console.log(residents[0].fullname);
+    // console.log(residents);
+    console.log(transactions.units);
+
+    // dispatch(saveResident(formResident));
+  };
+
+  const handleTransactionData = (e) => {};
+
   return (
     <>
       {showTransactionModal && (
-        <ModalTransaction setShowTransactionModal={setShowTransactionModal} />
+        <ModalTransaction
+          setShowTransactionModal={setShowTransactionModal}
+          handleOnChangeDataSelected={handleOnChangeDataSelected}
+          handleSubmitForm={handleSubmitForm}
+        />
       )}
       {showResidentModal && (
         <ResidentPage setShowResidentModal={setShowResidentModal} />
