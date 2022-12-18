@@ -12,6 +12,7 @@ import MainLayout from './layouts/Main';
 import UnitPage from './pages/master/units/UnitPage';
 import HomePage from './pages/home/HomePage';
 import ResidentPage from './pages/master/residents/ResidentPage';
+import DetailTransactionPage from './pages/transactions/DetailTransactionPage';
 
 function App() {
   return (
@@ -20,12 +21,16 @@ function App() {
         <MainLayout>
           <Routes>
             <Route path='*' element={<ErrorPage />} />
-            <Route path='/login' element={<LoginPage />} />
+            <Route path='login' element={<LoginPage />} />
             <Route path='' element={<LandingPage />} />
             <Route element={<ProtectRoute />}>
-              <Route path='/transactions' element={<TransactionsPage />} />
-              <Route path='/units' element={<UnitPage />} />
-              <Route path='/home' element={<HomePage />} />
+              <Route path='transactions' element={<TransactionsPage />} />
+              <Route path='units' element={<UnitPage />} />
+              <Route path='home' element={<HomePage />} />
+              <Route
+                path='transactions/:id'
+                element={<DetailTransactionPage />}
+              />
             </Route>
           </Routes>
         </MainLayout>

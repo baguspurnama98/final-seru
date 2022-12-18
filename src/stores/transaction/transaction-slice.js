@@ -9,6 +9,14 @@ export const fetchTransactions = createAsyncThunk(
   }
 );
 
+export const fetchTransactionsbyId = createAsyncThunk(
+  '/transactions/id',
+  async (payload) => {
+    const transactions = await ConfigAPI.getTransactionById(payload);
+    return transactions;
+  }
+);
+
 const transactionSlice = createSlice({
   name: 'transactions',
   initialState: {

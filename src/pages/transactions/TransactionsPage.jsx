@@ -11,6 +11,10 @@ import ModalTransaction from './ModalTransaction';
 function TransactionsPage() {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [showResidentModal, setShowResidentModal] = useState(false);
+  const [filter, setFilter] = useState({
+    floor: '2',
+    status: 'available',
+  });
   const { userLogged } = useSelector((store) => store[userSlice.name]);
   const { transactions } = useSelector((store) => store[transactionSlice.name]);
   const dispatch = useDispatch();
@@ -18,6 +22,15 @@ function TransactionsPage() {
   useEffect(() => {
     dispatch(fetchTransactions(userLogged.token));
   }, []);
+
+  const handleOnChangeFilter = (e) => {
+    setFilter({ ...filter, [e.target.name]: e.target.value });
+  };
+
+  const handleFilter = (e) => {
+    e.preventDefault();
+    console.log(filter);
+  };
 
   return (
     <>
@@ -29,12 +42,64 @@ function TransactionsPage() {
       )}
 
       <div className='overflow-x-auto'>
-        <div className='min-w-screen min-h-screen bg-white flex '>
+        <div className='min-w-screen min-h-screen  bg-white flex '>
           <div className='w-full px-20 my-10'>
-            <div className='flex justify-end my-2'>
+            <div className='flex justify-between my-2'>
+              <div className='border p-2 rounded-lg'>
+                <h4 className='text-center font-bold'>Filter Data Form</h4>
+                <form
+                  className=' grid grid-cols-2 gap-2'
+                  onSubmit={handleFilter}
+                >
+                  <div>
+                    <label className='text-gray-800 text-sm font-bold'>
+                      Floor
+                    </label>
+                    <select
+                      name='floor'
+                      onChange={handleOnChangeFilter}
+                      value={filter.floor}
+                      className='p-2  w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none'
+                    >
+                      {[...Array(10).keys()].map((item, idx) => (
+                        <option key={idx} value={idx + 1}>
+                          {item + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className='text-gray-800 text-sm font-bold'>
+                      Status
+                    </label>
+                    <select
+                      name='status'
+                      value={filter.status}
+                      onChange={handleOnChangeFilter}
+                      className='p-2 w-full bg-white  text-sm rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none'
+                    >
+                      <option value='available'>Available</option>
+                      <option value='unavailable'>Unavailable</option>
+                      <option value='rented'>Rented</option>
+                      <option value='sold'>Sold</option>
+                    </select>
+                  </div>
+                  <div></div>
+
+                  <div className='flex justify-end items-center'>
+                    <button
+                      type='submit'
+                      className='bg-rose-400 py-2 px-4 rounded-lg text-white hover:bg-rose-500 se'
+                    >
+                      Filter Data
+                    </button>
+                  </div>
+                </form>
+              </div>
               <button
                 onClick={() => setShowTransactionModal(true)}
-                className='py-4 px-8  bg-[#2469a5]  hover:bg-blue-500 font-bold text-md rounded-md text-white drop-shadow-3xl'
+                className='py-3 px-8  bg-[#2469a5]  hover:bg-blue-500 font-bold text-md rounded-md text-white drop-shadow-3xl self-end'
               >
                 Add Transaction
               </button>
@@ -118,9 +183,11 @@ function TransactionsPage() {
                         {transaction.billingDate}
                       </td>
                       <td className='py-3 px-3 text-center'>
-                        <button className='py-1 px-2  bg-gray-400 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl'>
-                          Details
-                        </button>
+                        <Link to={`/transactions/${transaction.id}`}>
+                          <button className='py-1 px-2  bg-gray-400 hover:bg-blue-400 font-bold text-md rounded-md text-white drop-shadow-3xl'>
+                            Details
+                          </button>
+                        </Link>
                       </td>
                     </tr>
                   ))}
