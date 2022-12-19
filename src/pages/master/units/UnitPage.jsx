@@ -42,7 +42,6 @@ function UnitPage() {
       if (filter.doFilter === false) {
         if (sort.doSort === true) {
           dispatch(sortUnits(sort)).then((res) => {
-            console.log(res);
             setSort({ ...sort, doSort: false });
             setLoading(false);
           });
@@ -94,7 +93,6 @@ function UnitPage() {
     setSort({ ...sort, doSort: true });
     setLoading(true);
     setRefreshKey(refreshKey + 1);
-    // console.log(sort);
   };
 
   const handleOnChangeSort = (e) => {
@@ -258,6 +256,7 @@ function UnitPage() {
             </div>
             <br />
             <br />
+            <hr className="w-full border-gray-300"></hr>
             <div className="flex justify-between">
               <h1 className="text-bold font-bold text-xl my-7">
                 Resident List

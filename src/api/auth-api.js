@@ -1,10 +1,7 @@
-const headers = {
-  Accept: "application/json",
-  "Content-Type": "application/json",
-};
+import {headers} from './api-config'
 
 export async function login(credentials) {
-  const response = await fetch(`http://localhost:4000/login`, {
+  const response = await fetch(`/api/login`, {
     headers,
     method: "POST",
     body: JSON.stringify(credentials),

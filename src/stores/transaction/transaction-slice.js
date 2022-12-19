@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as ConfigAPI from "../../api/api-config";
+import * as ConfigAPI from "../../api/transactions-api";
 
 export const fetchTransactions = createAsyncThunk("/transactions", async () => {
   const transactions = await ConfigAPI.getAllTransaction();

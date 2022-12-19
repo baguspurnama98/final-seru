@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as ConfigAPI from "../../api/api-config";
+import * as ConfigAPI from "../../api/residents-api";
 
 export const fetchResidents = createAsyncThunk("/residents", async (token) => {
   const residents = await ConfigAPI.getAllResidents(token);

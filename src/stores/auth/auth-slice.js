@@ -28,10 +28,9 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.userLogged = action.payload;
         state.isLogin = true;
-        // if (action.payload.token) {
         localStorage.setItem("userLogged", JSON.stringify(action.payload));
         localStorage.setItem("isLogin", JSON.stringify(true));
-        // }
+        localStorage.setItem("token", JSON.stringify(action.payload.token));
       })
       .addCase(loginUser.rejected, (state) => {
         state.isLogin = false;

@@ -27,7 +27,7 @@ function ModalTransaction(props) {
       });
     }
   };
-
+  console.log(units, residents);
   useEffect(() => {
     dispatch(getUnits());
     dispatch(fetchResidents());
@@ -163,7 +163,7 @@ function ModalTransaction(props) {
                 disabled={!form.unitId}
                 className="p-2 text-sm mb-2 w-full bg-white rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
               >
-                <option value="">Choose...</option>
+                
                 <option value="rent">Rent</option>
                 <option value="sell">Sell</option>
               </select>
