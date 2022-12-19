@@ -10,9 +10,6 @@ export const headers = {
 };
 
 export async function getAllUnits() {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   const response = await fetch(`/api/units?_expand=resident`, {
     headers,
     method: "GET",
@@ -21,9 +18,6 @@ export async function getAllUnits() {
 }
 
 export async function getUnitsByFilter(payload) {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   let url = [];
   if (payload.floor !== "0" && payload.floor) {
     url.push(`floor=${payload.floor}`);
@@ -44,12 +38,6 @@ export async function getUnitsByFilter(payload) {
 }
 
 export async function sortUnits(payload) {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
-  console.log(
-    `/api/units?_sort=${payload.price}&_order=${payload.order}&_expand=resident`
-  );
   const response = await fetch(
     `/api/units?_sort=${payload.price}&_order=${payload.order}&_expand=resident`,
     {
@@ -61,9 +49,6 @@ export async function sortUnits(payload) {
 }
 
 export async function createUnit(data) {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   const response = await fetch(`/api/units`, {
     headers,
     method: "POST",
@@ -73,9 +58,6 @@ export async function createUnit(data) {
 }
 
 export async function getUnitsById(id) {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   const response = await fetch(`/api/units/${id}?_expand=resident`, {
     headers,
     method: "GET",
@@ -84,9 +66,6 @@ export async function getUnitsById(id) {
 }
 
 export async function updateUnit(unit) {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   const response = await fetch(`/api/units/${unit.id}`, {
     headers,
     method: "PUT",
@@ -106,9 +85,6 @@ export async function deleteUnit(id) {
 // ----------------,s,,
 
 export async function getAllTransaction() {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   const response = await fetch(
     `/api/transactions?_expand=resident&_expand=unit`,
     {
@@ -121,9 +97,6 @@ export async function getAllTransaction() {
 }
 
 export async function getTransactionById(payload) {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   const response = await fetch(
     `/api/transactions/${payload}?_expand=resident&_expand=unit`,
     {
@@ -135,9 +108,6 @@ export async function getTransactionById(payload) {
 }
 
 export async function createTransaction(data) {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   const response = await fetch(`/api/transactions`, {
     headers,
     method: "POST",
@@ -147,9 +117,6 @@ export async function createTransaction(data) {
 }
 
 export async function getTransactionsByFilter(payload) {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   let url = [];
   if (payload.floor !== "0" && payload.floor) {
     url.push(`floor=${payload.floor}`);
@@ -173,9 +140,6 @@ export async function getTransactionsByFilter(payload) {
 // ---------------------------
 
 export async function getAllResidents() {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   const response = await fetch(`/api/residents`, {
     headers,
     method: "GET",
@@ -185,9 +149,6 @@ export async function getAllResidents() {
 }
 
 export async function createResident(resident) {
-  headers["Authorization"] = JSON.parse(
-    localStorage.getItem("userLogged")
-  ).token;
   const response = await fetch(`/api/residents`, {
     headers,
     method: "POST",
