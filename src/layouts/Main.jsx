@@ -6,7 +6,7 @@ const MainLayout = ({ children }) => {
   return (
     <div className="h-screen">
       <Header />
-      <main className="container mx-auto min-h-[700px] ">{children}</main>
+      <main className="container mx-auto min-h-[700px]">{children}</main>
       <Footer />
     </div>
   );

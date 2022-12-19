@@ -1,15 +1,19 @@
-const BASE_API_URL = "http://localhost:4000";
+export const getToken = () =>
+  localStorage.getItem("token")
+    ? JSON.parse(localStorage.getItem("token"))
+    : null;
 
-const headers = {
+export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
+  Authorization: `Bearer ${getToken()}`,
 };
 
 export async function getAllUnits() {
   headers["Authorization"] = JSON.parse(
     localStorage.getItem("userLogged")
   ).token;
-  const response = await fetch(`${BASE_API_URL}/units?_expand=resident`, {
+  const response = await fetch(`/api/units?_expand=resident`, {
     headers,
     method: "GET",
   });
@@ -32,13 +36,10 @@ export async function getUnitsByFilter(payload) {
   }
   url = url.join("&");
   console.log(url);
-  const response = await fetch(
-    `${BASE_API_URL}/units?${url}&_expand=resident`,
-    {
-      headers,
-      method: "GET",
-    }
-  );
+  const response = await fetch(`/api/units?${url}&_expand=resident`, {
+    headers,
+    method: "GET",
+  });
   return await response.json();
 }
 
@@ -47,10 +48,10 @@ export async function sortUnits(payload) {
     localStorage.getItem("userLogged")
   ).token;
   console.log(
-    `${BASE_API_URL}/units?_sort=${payload.price}&_order=${payload.order}&_expand=resident`
+    `/api/units?_sort=${payload.price}&_order=${payload.order}&_expand=resident`
   );
   const response = await fetch(
-    `${BASE_API_URL}/units?_sort=${payload.price}&_order=${payload.order}&_expand=resident`,
+    `/api/units?_sort=${payload.price}&_order=${payload.order}&_expand=resident`,
     {
       headers,
       method: "GET",
@@ -63,7 +64,7 @@ export async function createUnit(data) {
   headers["Authorization"] = JSON.parse(
     localStorage.getItem("userLogged")
   ).token;
-  const response = await fetch(`${BASE_API_URL}/units`, {
+  const response = await fetch(`/api/units`, {
     headers,
     method: "POST",
     body: JSON.stringify(data),
@@ -75,7 +76,7 @@ export async function getUnitsById(id) {
   headers["Authorization"] = JSON.parse(
     localStorage.getItem("userLogged")
   ).token;
-  const response = await fetch(`${BASE_API_URL}/units/${id}?_expand=resident`, {
+  const response = await fetch(`/api/units/${id}?_expand=resident`, {
     headers,
     method: "GET",
   });
@@ -86,7 +87,7 @@ export async function updateUnit(unit) {
   headers["Authorization"] = JSON.parse(
     localStorage.getItem("userLogged")
   ).token;
-  const response = await fetch(`${BASE_API_URL}/units/${unit.id}`, {
+  const response = await fetch(`/api/units/${unit.id}`, {
     headers,
     method: "PUT",
     body: JSON.stringify(unit),
@@ -95,7 +96,7 @@ export async function updateUnit(unit) {
 }
 
 export async function deleteUnit(id) {
-  const response = await fetch(`${BASE_API_URL}/units/${id}`, {
+  const response = await fetch(`/api/units/${id}`, {
     headers,
     method: "DELETE",
   });
@@ -109,7 +110,7 @@ export async function getAllTransaction() {
     localStorage.getItem("userLogged")
   ).token;
   const response = await fetch(
-    `${BASE_API_URL}/transactions?_expand=resident&_expand=unit`,
+    `/api/transactions?_expand=resident&_expand=unit`,
     {
       headers,
       method: "GET",
@@ -124,7 +125,7 @@ export async function getTransactionById(payload) {
     localStorage.getItem("userLogged")
   ).token;
   const response = await fetch(
-    `${BASE_API_URL}/transactions/${payload}?_expand=resident&_expand=unit`,
+    `/api/transactions/${payload}?_expand=resident&_expand=unit`,
     {
       headers,
       method: "GET",
@@ -137,7 +138,7 @@ export async function createTransaction(data) {
   headers["Authorization"] = JSON.parse(
     localStorage.getItem("userLogged")
   ).token;
-  const response = await fetch(`${BASE_API_URL}/transactions`, {
+  const response = await fetch(`/api/transactions`, {
     headers,
     method: "POST",
     body: JSON.stringify(data),
@@ -160,7 +161,7 @@ export async function getTransactionsByFilter(payload) {
   console.log(url);
 
   const response = await fetch(
-    `${BASE_API_URL}/transactions?_expand=resident&_expand=unit?${url}`,
+    `/api/transactions?_expand=resident&_expand=unit?${url}`,
     {
       headers,
       method: "GET",
@@ -175,7 +176,7 @@ export async function getAllResidents() {
   headers["Authorization"] = JSON.parse(
     localStorage.getItem("userLogged")
   ).token;
-  const response = await fetch(`${BASE_API_URL}/residents`, {
+  const response = await fetch(`/api/residents`, {
     headers,
     method: "GET",
   });
@@ -187,7 +188,7 @@ export async function createResident(resident) {
   headers["Authorization"] = JSON.parse(
     localStorage.getItem("userLogged")
   ).token;
-  const response = await fetch(`${BASE_API_URL}/residents`, {
+  const response = await fetch(`/api/residents`, {
     headers,
     method: "POST",
     body: JSON.stringify(resident),
