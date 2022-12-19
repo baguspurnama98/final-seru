@@ -1,4 +1,4 @@
-import {headers} from './api-config'
+import { headers } from "./api-config";
 
 export async function login(credentials) {
   const response = await fetch(`/api/login`, {

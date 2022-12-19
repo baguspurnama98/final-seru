@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as API from "../../api/api-config";
+import * as API from "../../api/units-api";
 
 export const getUnits = createAsyncThunk("units/fetch", async (token) => {
   const units = await API.getAllUnits(token);

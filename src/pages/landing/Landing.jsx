@@ -11,7 +11,7 @@ export default function LandingPage() {
             Mandiri Apartment
           </h1>
           <div className="text-3xl font-bold pb-10">Daan Mogot City</div>
-          {!localStorage.getItem("userLogged") && (
+          {!localStorage.getItem("token") && (
             <Link
               to="/login"
               className="py-4 px-16 bg-blue-700 hover:bg-blue-500 font-bold text-2xl rounded-md text-white drop-shadow-3xl"

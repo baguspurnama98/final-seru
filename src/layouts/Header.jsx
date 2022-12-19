@@ -9,8 +9,6 @@ function Header() {
   const dispatch = useDispatch();
   const onHandleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem("isLogin");
-    localStorage.removeItem("userLogged");
     localStorage.removeItem("token");
     navigate("/");
   };
@@ -39,7 +37,7 @@ function Header() {
             </ul>
           </nav>
 
-          {localStorage.getItem("isLogin") && (
+          {localStorage.getItem("token") && (
             <button
               onClick={onHandleLogout}
               className="bg-white font-semibold text-black  py-1 px-6 rounded border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
