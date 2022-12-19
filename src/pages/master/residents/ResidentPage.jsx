@@ -7,7 +7,7 @@ export default function ResidentPage() {
   const params = useParams();
   const dispatch = useDispatch();
   const loading = useRef(true);
-  const [details, setDetails] = useState([]);
+  const [details, setDetails] = useState();
 
   // useEffect(() => {
   //   if (loading.current) {
@@ -19,47 +19,47 @@ export default function ResidentPage() {
   // }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchResidentsbyId(params.id)).then((res) =>
-      setDetails([res.payload])
-    );
+    console.log(params.id);
+    dispatch(fetchResidentsbyId(params.id)).then((res) => {
+      setDetails(res.payload);
+      console.log(res);
+    });
   }, [dispatch]);
 
   return (
     <div>
-      <div class='font-sans h-screen w-full flex flex-row justify-center items-center'>
-        <div class='card w-96 mx-auto bg-white  shadow-2xl'>
-          <img
-            class='w-32 mx-auto rounded-full -mt-20 border-8 border-white'
-            src='https://avatars.githubusercontent.com/u/67946056?v=4'
-            alt=''
-          />
-          {details.map((detail) => (
+      {details && (
+        <div class='font-sans h-screen w-full flex flex-row justify-center items-center'>
+          <div class='card w-96 mx-auto bg-white  shadow-2xl'>
+            <img
+              class='w-32 mx-auto rounded-full -mt-20 border-8 border-white'
+              src='https://avatars.githubusercontent.com/u/67946056?v=4'
+              alt=''
+            />
             <>
               <div class='text-center mt-2 text-3xl font-medium'>
-                {detail.fullName}
+                {details.fullName}
               </div>
               <div class='text-center mt-2 font-light text-sm'>
-                {detail.email}
+                {details.email}
               </div>
-              <div class='text-center font-normal text-lg'>{detail.phone}</div>
-              <div class='px-6 text-center mt-2 font-light text-sm'>
-                {detail.maritalStatus}
-              </div>
+              <div class='text-center font-normal text-md'>{details.phone}</div>
 
               <hr class='mt-8' />
               <div class='flex p-4'>
                 <div class='w-1/2 text-center'>
-                  Dependent: <span class='font-bold'>{detail.dependents}</span>
+                  Status:
+                  <span class='font-bold'> {details.maritalStatus}</span>
                 </div>
-                <div class='w-0 border border-gray-300'></div>
+
                 <div class='w-1/2 text-center'>
-                  Birth Date: <span class='font-bold'>{detail.birthDate}</span>
+                  Birth Date: <span class='font-bold'>{details.birthDate}</span>
                 </div>
               </div>
             </>
-          ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

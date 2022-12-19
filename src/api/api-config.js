@@ -155,7 +155,10 @@ export async function createResident(resident) {
 }
 
 export async function getResidentById(payload) {
-  const response = await fetch(`${BASE_API_URL}/residents/${payload.id}`, {
+  headers['Authorization'] = JSON.parse(
+    localStorage.getItem('userLogged')
+  ).token;
+  const response = await fetch(`${BASE_API_URL}/residents/${payload}`, {
     headers,
     method: 'GET',
   });
