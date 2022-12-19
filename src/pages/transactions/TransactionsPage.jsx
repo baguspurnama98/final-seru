@@ -34,7 +34,7 @@ function TransactionsPage() {
     e.preventDefault();
     console.log(filter);
   };
-  // console.log(transactions);
+  console.log(transactions);
   return (
     <>
       {showTransactionModal && (
@@ -145,33 +145,32 @@ function TransactionsPage() {
                       key={idx}
                       className="border-b border-gray-200 hover:bg-white"
                     >
+                      <td className="py-3 px-3 text-center">{idx + 1}</td>
+
                       <td className="py-3 px-3 text-center">
-                        {transaction.id}
+                        {transaction.unit.floor}
                       </td>
 
                       <td className="py-3 px-3 text-center">
-                        {transaction.floor}
-                      </td>
-
-                      <td className="py-3 px-3 text-center">
-                        {transaction.unit}
+                        {transaction.unit.unitCode}
                       </td>
                       <td className="py-3 px-3 text-center">
-                        <button
-                          className="bg-transparent text-blue-700"
-                          onClick={() => setShowResidentModal(true)}
-                        >
-                          {transaction.resident}
-                        </button>
+                        <Link to={`/resident/${transaction.resident.id}`}>
+                          <button className="bg-transparent hover:text-blue-700">
+                            {transaction.resident.fullName}
+                          </button>
+                        </Link>
+                      </td>
+                      <td className="py-3 px-3 text-center uppercase">
+                        {transaction.unit.status}
                       </td>
                       <td className="py-3 px-3 text-center">
-                        {transaction.status}
+                        {transaction.unit.status === "rented"
+                          ? transaction.unit.rentPrice
+                          : transaction.unit.sellPrice}
                       </td>
                       <td className="py-3 px-3 text-center">
                         {transaction.price}
-                      </td>
-                      <td className="py-3 px-3 text-center">
-                        {transaction.transactionPrice}
                       </td>
                       <td className="py-3 px-3 text-center">
                         {transaction.profit}
@@ -179,11 +178,11 @@ function TransactionsPage() {
                       <td className="py-3 px-3 text-center">
                         {transaction.transactionDate}
                       </td>
-                      <td className="py-3 px-3 text-center">
-                        {transaction.rentalSchema}
+                      <td className="py-3 px-3 text-center uppercase">
+                        {transaction.unit.rentSchema || "-"}
                       </td>
                       <td className="py-3 px-3 text-center">
-                        {transaction.startEndDate}
+                        {transaction.rentStartDate}
                       </td>
 
                       <td className="py-3 px-3 text-center">
