@@ -13,6 +13,7 @@ function ModalTransaction(props) {
   const { residents } = useSelector((store) => store.residents);
   const dispatch = useDispatch();
   // const [loading, setLoading] = useState(false);
+
   const handleOnChange = (e) => {
     if (e.target.name === "schema") {
       setForm({
@@ -27,7 +28,7 @@ function ModalTransaction(props) {
       });
     }
   };
-  // console.log(units, form);
+
   useEffect(() => {
     dispatch(getUnits());
     dispatch(fetchResidents());

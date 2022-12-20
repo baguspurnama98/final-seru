@@ -17,3 +17,11 @@ export async function createResident(resident) {
   });
   return await response.json();
 }
+
+export async function getResidentById(payload) {
+  const response = await fetch(`/api/residents/${payload}`, {
+    headers,
+    method: "GET",
+  });
+  return await response.json();
+}

@@ -14,6 +14,15 @@ export const saveResident = createAsyncThunk(
   }
 );
 
+export const fetchResidentsbyId = createAsyncThunk(
+  "/residents/id",
+  async (payload) => {
+    const resident = await ConfigAPI.getResidentById(payload);
+    console.log(resident);
+    return resident;
+  }
+);
+
 const residentSlice = createSlice({
   name: "residents",
   initialState: {
