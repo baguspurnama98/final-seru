@@ -8,7 +8,7 @@ function HomePage() {
   const loading = useRef(true);
   const token = JSON.parse(localStorage.getItem("token"));
   const { units } = useSelector((store) => store.units);
-  const { userLogged } = useSelector((store) => store.users);
+  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
   const classifyStatus = (status) => {
     return units.filter((item) => item.status === status).length;
@@ -20,15 +20,16 @@ function HomePage() {
       loading.current = false;
     }
   }, [dispatch, loading, token]);
+
   return (
     <>
-      {token && (
+      {token && userLogged && (
         <div className="container max-w-5xl mx-auto pt-20">
           <main>
             <div className="container max-w-4xl">
               <div>
                 <h1 className="font-bold text-5xl pb-5">
-                  Selamat datang{`, ${userLogged.fullname || ""}`}
+                  Selamat datang{`, ${userLogged.fullName || ""}`}
                 </h1>
                 <div className="font-normal text-3xl pb-12">
                   Mandiri Apartment Daan Mogot City

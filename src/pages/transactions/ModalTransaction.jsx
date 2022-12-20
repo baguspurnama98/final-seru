@@ -12,12 +12,12 @@ function ModalTransaction(props) {
   const { units } = useSelector((store) => store.units);
   const { residents } = useSelector((store) => store.residents);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const handleOnChange = (e) => {
     if (e.target.name === "schema") {
       setForm({
         ...form,
-        price: getPrice(e.target.name, form.unitId),
+        price: getPrice(e.target.value, form.unitId),
         schema: e.target.value,
       });
     } else {
@@ -27,7 +27,7 @@ function ModalTransaction(props) {
       });
     }
   };
-  console.log(units, residents);
+  // console.log(units, form);
   useEffect(() => {
     dispatch(getUnits());
     dispatch(fetchResidents());
@@ -35,7 +35,9 @@ function ModalTransaction(props) {
 
   const getPrice = (schema, id) => {
     if (schema !== "") {
-      const selected = units.findIndex((item) => item.id === id);
+      const selected = units.findIndex(
+        (item) => String(item.id) === String(id)
+      );
       setUnitSelected(units[selected]);
       if (schema === "rent") {
         return units[selected].rentPrice;
@@ -57,14 +59,13 @@ function ModalTransaction(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-
+    props.setLoading(true);
     let residentFix = { ...unitSelected };
     residentFix["residentId"] = form.residentId;
     residentFix["status"] = form.schema === "rent" ? "rented" : "sold";
 
     const idxResidentSelected = residents.findIndex(
-      (item) => item.id === form.residentId
+      (item) => String(item.id) === String(form.residentId)
     );
     form["fullName"] = residents[idxResidentSelected].fullName;
     if (form.schema === "rent") {
@@ -76,7 +77,7 @@ function ModalTransaction(props) {
     }
     dispatch(createTransaction(form)).then(() => {
       dispatch(saveUpdate(residentFix)).then(() => {
-        setLoading(false);
+        props.setLoading(false);
         props.setRefreshKey(props.refreshKey + 1);
         props.setShowTransactionModal(false);
       });
@@ -161,6 +162,7 @@ function ModalTransaction(props) {
                 name="schema"
                 onChange={handleOnChange}
                 disabled={!form.unitId}
+                value={form.schema}
                 className="p-2 text-sm mb-2 w-full bg-white rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
               >
                 <option value="">Choose...</option>
@@ -247,7 +249,7 @@ function ModalTransaction(props) {
                 type="submit"
                 className="flex justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm"
               >
-                {loading && <Spinner />}
+                {props.loading && <Spinner />}
                 Submit
               </button>
             </div>

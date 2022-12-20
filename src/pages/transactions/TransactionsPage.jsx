@@ -27,15 +27,15 @@ function TransactionsPage() {
 
   useEffect(() => {
     if (loading) {
-      if (filter.doFilter === false) {
-        dispatch(fetchTransactions());
-      } else {
-        // console.log(filter);
-        // dispatch(getTransactionsByFilter(filter)).then(() => {
-        //   setFilter({ ...filter, doFilter: false });
-        //   setLoading(false);
-        // });
-      }
+      // if (filter.doFilter === false) {
+      dispatch(fetchTransactions()).then(() => setLoading(false));
+      // } else {
+      //   // console.log(filter);
+      //   // dispatch(getTransactionsByFilter(filter)).then(() => {
+      //   //   setFilter({ ...filter, doFilter: false });
+      //   //   setLoading(false);
+      //   // });
+      // }
     }
   }, [dispatch, refreshKey, loading]);
 
@@ -49,7 +49,7 @@ function TransactionsPage() {
     setLoading(true);
     setRefreshKey(refreshKey + 1);
   };
-
+  console.log(transactions);
   return (
     <>
       {showTransactionModal && (
@@ -57,6 +57,8 @@ function TransactionsPage() {
           setShowTransactionModal={setShowTransactionModal}
           refreshKey={refreshKey}
           setRefreshKey={setRefreshKey}
+          loading={loading}
+          setLoading={setLoading}
         />
       )}
       {showResidentModal && (
@@ -121,7 +123,7 @@ function TransactionsPage() {
                 >
                   Search
                 </label>
-                <div className="relative">
+                <div>
                   <input
                     className="block py-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                     type="search"
@@ -146,7 +148,7 @@ function TransactionsPage() {
                 Add Transaction
               </button>
             </div>
-            <div className="bg-white shadow-md rounded ">
+            <div className="bg-white shadow-md rounded">
               <table className="min-w-max w-full table-auto">
                 <thead>
                   <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -175,11 +177,20 @@ function TransactionsPage() {
                 </thead>
 
                 <tbody className="text-gray-600 text-sm font-reguler">
-                  {loading && transactions.length === 0 && (
+                  {loading && (
                     <tr className="border-b border-gray-200 hover:bg-white ">
                       <td colSpan={12}>
                         <div className="my-3">
                           <Pulse />
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                  {!loading && transactions.length === 0 && (
+                    <tr className="border-b border-gray-200 hover:bg-white ">
+                      <td colSpan={12}>
+                        <div className="my-3 text-center text-blue-700 font-bold text-xl">
+                          No Data
                         </div>
                       </td>
                     </tr>

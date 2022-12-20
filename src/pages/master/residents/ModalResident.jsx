@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Spinner from "../../../assets/Spinner";
 import { saveResident } from "../../../stores/master/resident-slice";
 import { Resident } from "../../../stores/master/residents-model";
 
@@ -13,14 +14,16 @@ function ModalResident(props) {
       [e.target.name]: e.target.value,
     });
   };
-
+  const [loading, setLoading] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     formResident["maritalStatus"] = formResident.maritalStatus || "single";
 
     dispatch(saveResident(formResident)).then(() => {
       props.setShowModalResident(false);
       props.setRefreshKey(props.refreshKey + 1);
+      setLoading(false);
     });
     console.log(formResident);
   };
@@ -131,7 +134,7 @@ function ModalResident(props) {
                 className="flex justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm"
                 disabled={!formResident.fullName}
               >
-                {/* {loading && <Spinner />} */}
+                {loading && <Spinner />}
                 <span>Submit</span>
               </button>
             </div>
