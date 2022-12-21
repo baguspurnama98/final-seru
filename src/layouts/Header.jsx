@@ -9,7 +9,7 @@ function Header() {
   const dispatch = useDispatch();
   const onHandleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem("token");
+
     navigate("/");
   };
 
