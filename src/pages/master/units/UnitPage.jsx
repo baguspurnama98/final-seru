@@ -7,7 +7,7 @@ import {
 } from "../../../stores/master/units-slice";
 import ModalUnit from "./modal/ModalUnit";
 import ModalDetailUnit from "./modal/ModalDetailUnit";
-import UnitList from "./UnitList";
+import UnitList from "./UnitTable.tsx";
 import ModalResident from "../residents/ModalResident";
 import ResidentList from "../residents/ResidentList";
 import { fetchResidents } from "../../../stores/master/resident-slice";
