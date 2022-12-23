@@ -18,7 +18,7 @@ const AppButton: React.FC<Props> = ({
 }) => {
     if (Boolean(icon)) {
         return (
-            <Button className={clsx("icon-btn", className)} shape='round' icon={icon} type={type} onClick={(e: any) => {
+            <Button className={clsx("icon-btn", className)}  icon={icon} type={type} onClick={(e: any) => {
                 e.stopPropagation()
                 onClick()
             }} {...buttonProps}>
@@ -27,7 +27,7 @@ const AppButton: React.FC<Props> = ({
     }
 
     return (
-        <Button className={clsx("btn", className)} shape='round' type={type} onClick={(e: any) => {
+        <Button className={clsx("btn", className)}  type={type} onClick={(e: any) => {
             e.stopPropagation()
             onClick()
         }} {...buttonProps}>

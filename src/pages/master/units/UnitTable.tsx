@@ -1,13 +1,11 @@
 
-import { Row } from 'antd'
+import { Row, Table } from 'antd'
 import { useDispatch } from 'react-redux'
-import AppButton from '../../../@ict/AppButton'
-import TableUnits from '../../../@ict/AppTable'
+import AppButton from '../../../ict/AppButton'
+import AppTable from '../../../ict/AppTable'
 
 
-const UnitTableComponent = () => {
-    const dispatch: any = useDispatch()
-
+const UnitTableComponent = (props:any) => {
     const columns = [
         {
             title: "Floor",
@@ -16,8 +14,8 @@ const UnitTableComponent = () => {
         },
         {
             title: "Unit",
-            dataIndex: 'unit',
-            key: 'unit'
+            dataIndex: 'unitCode',
+            key: 'unitCode'
         },
         {
             title: "Status",
@@ -26,34 +24,35 @@ const UnitTableComponent = () => {
         },
         {
             title: "Price",
-            dataIndex: 'price',
-            key: 'price'
+            dataIndex: 'sellPrice',
+            key: 'sellPrice'
         },
         {
             title: "Rental Price",
-            dataIndex: 'rentalPrice',
-            key: 'rentalPrice'
+            dataIndex: 'rentPrice',
+            key: 'rentPrice'
         },
         {
             title: "Rental Schema",
-            dataIndex: 'rentalSchema',
-            key: 'rentalSchema'
+            dataIndex: 'rentSchema',
+            key: 'rentSchema'
         },
         {
             title: "Resident",
             dataIndex: 'resident',
-            key: 'resident'
+            key: 'resident',
+            render: (resident:any) => <p>{resident.fullName}</p>
         },
         {
             title: "Details",
             align: 'center',
             width: "100",
-            render: (item: any) => {
+            render: () => {
                 return (
                     <Row justify="center">
                         <AppButton
                             type='link'
-                            className='button-noborder'
+                            className='button-noborder bg-blue-500 px-2 py-1 text-white rounded-xl'
                             onClick={() => console.log('oke')
                             }
                             title="Detail"
@@ -65,10 +64,11 @@ const UnitTableComponent = () => {
 
     ]
 
+    
     return (
-        <div>
-            <TableUnits data={ } />
-        </div>
+        
+            <AppTable data={props.units} columns={columns} />
+       
     )
 }
 

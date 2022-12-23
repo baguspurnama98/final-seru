@@ -7,10 +7,13 @@ import {
 } from "../../../stores/master/units-slice";
 import ModalUnit from "./modal/ModalUnit";
 import ModalDetailUnit from "./modal/ModalDetailUnit";
-import UnitList from "./UnitTable.tsx";
+// import UnitList from "./UnitTable.tsx";
 import ModalResident from "../residents/ModalResident";
 import ResidentList from "../residents/ResidentList";
 import { fetchResidents } from "../../../stores/master/resident-slice";
+import UnitTableComponent from './UnitTable'
+import { useGetUnitsQuery } from '../../../services/unitsApi'
+import Pulse from "../../../assets/Pulse";
 
 function UnitPage() {
   const [showModal, setShowModal] = useState(false);
@@ -32,21 +35,28 @@ function UnitPage() {
     price: "sell",
   });
 
-  const { units } = useSelector((store) => store.units);
+  // const { units } = useSelector((store) => store.units);
   const { residents } = useSelector((store) => store.residents);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+
+  const { data } = useGetUnitsQuery()
+
 
   useEffect(() => {
     if (loading) {
       if (filter.doFilter === false) {
         if (sort.doSort === true) {
-          dispatch(sortUnits(sort)).then((res) => {
-            setSort({ ...sort, doSort: false });
+          if (!currentData) {
             setLoading(false);
-          });
+          }
+          // dispatch(sortUnits(sort)).then((res) => {
+          //   setSort({ ...sort, doSort: false });
+          //   setLoading(false);
+          // });
         } else {
           dispatch(getUnits()).then(() => setLoading(false));
+
         }
       } else {
         dispatch(getUnitByFilter(filter)).then(() => {
@@ -247,13 +257,13 @@ function UnitPage() {
               </button>
             </div>
 
-            <div className="bg-white shadow-md ">
-              <UnitList
-                loading={loading}
-                units={units}
-                handleDetailClicked={handleDetailClicked}
-              />
-            </div>
+            {!data && <Pulse />}
+            {
+              data &&
+              <div className="bg-white shadow-md ">
+                <UnitTableComponent units={data} />
+              </div>
+            }
             <br />
             <br />
             <hr className="w-full border-gray-300"></hr>

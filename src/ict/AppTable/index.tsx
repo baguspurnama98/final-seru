@@ -1,16 +1,15 @@
 import { TableProps, Table, TablePaginationConfig } from 'antd';
 import clsx from 'clsx';
 import React from 'react'
-import { Unit } from '../../@model/units'
 
 interface Props extends TableProps<any> {
     data: any[]
     columns: any[]
     className?: string
-    pagination: false | TablePaginationConfig | undefined
+    pagination?: false | TablePaginationConfig | undefined
 }
 
-const TableUnits: React.FC<Props> = ({
+const AppTable: React.FC<Props> = ({
     data, columns, className, pagination, ...rest
 }) => {
     return (
@@ -18,17 +17,16 @@ const TableUnits: React.FC<Props> = ({
             className={clsx('table-responsive', className)}
             columns={columns}
             pagination={pagination}
+            dataSource={data}
             {...rest}
         />
-
     )
-
 }
 
-TableUnits.defaultProps = {
+AppTable.defaultProps = {
     data: [],
     pagination: false,
     className: ""
 }
 
-export default TableUnits
+export default AppTable
