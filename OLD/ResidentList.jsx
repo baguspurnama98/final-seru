@@ -1,5 +1,5 @@
 import React from "react";
-import Pulse from "../../../assets/Pulse";
+import Pulse from "../src/assets/Pulse";
 
 function ResidentList(props) {
   const { loading, residents } = props;

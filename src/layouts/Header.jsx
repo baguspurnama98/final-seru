@@ -15,9 +15,9 @@ function Header() {
 
   return (
     <>
-      <header className="header sticky top-0 bg-[#2469a5] shadow-md flex items-center justify-between px-36 py-2">
-        <h1 className="w-3/12">
-          <Link to="/" className="flex items-center font-bold text-lg">
+      <header className="header sticky top-0 bg-[#2469a5] shadow-md flex items-center justify-between px-5 sm:px-10 py-2 z-50">
+        <h1 className="w-3/12 ">
+          <Link to="home" className="flex items-center font-bold text-lg">
             <img src={logo} alt="..." className="w-12 h-12 my-2 mr-3 " />
             <span className="text-2xl text-white">Mandiri Apartment</span>
           </Link>
@@ -26,10 +26,10 @@ function Header() {
           <nav className="nav font-semibold text-lg text-white mr-6">
             <ul className="flex items-ends ">
               <li className="p-4 border-b-2 border-blue-900 border-opacity-0 hover:border-opacity-100 hover:text-gray-200 duration-200 cursor-pointer">
-                <Link to="home">Home</Link>
+                <Link to="residents">Residents</Link>
               </li>
               <li className="p-4 border-b-2 border-blue-900 border-opacity-0 hover:border-opacity-100 hover:text-gray-200 duration-200 cursor-pointer active">
-                <Link to="units">Apartment</Link>
+                <Link to="units">Units</Link>
               </li>
               <li className="p-4 border-b-2 border-blue-900 border-opacity-0 hover:border-opacity-100 hover:text-gray-200 duration-200 cursor-pointer">
                 <Link to="transactions">Transactions</Link>

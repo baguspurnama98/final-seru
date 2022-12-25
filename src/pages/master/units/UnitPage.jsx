@@ -1,26 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getUnitByFilter,
-  getUnits,
-  sortUnits,
-} from "../../../stores/master/units-slice";
-import ModalUnit from "./modal/ModalUnit";
-import ModalDetailUnit from "./modal/ModalDetailUnit";
-// import UnitList from "./UnitTable.tsx";
-import ModalResident from "../residents/ModalResident";
-import ResidentList from "../residents/ResidentList";
-import { fetchResidents } from "../../../stores/master/resident-slice";
+import React, { useEffect, useState } from "react";
+import ModalUnit from "./ModalUnit";
 import UnitTableComponent from './UnitTable'
 import { useGetUnitsQuery } from '../../../services/unitsApi'
 import Pulse from "../../../assets/Pulse";
 
 function UnitPage() {
   const [showModal, setShowModal] = useState(false);
-  const [showModalDetail, setShowModalDetail] = useState(false);
-  const [showModalResident, setShowModalResident] = useState(false);
-  const [dataSelected, setDataSelected] = useState(undefined);
   const [refreshKey, setRefreshKey] = useState(0);
+
+  // const coba = useSelector((store) => store.apartmentApi )
+  // console.log(coba);
 
   const [filter, setFilter] = useState({
     doFilter: false,
@@ -35,44 +24,10 @@ function UnitPage() {
     price: "sell",
   });
 
-  // const { units } = useSelector((store) => store.units);
-  const { residents } = useSelector((store) => store.residents);
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-
-  const { data } = useGetUnitsQuery()
-
-
-  useEffect(() => {
-    if (loading) {
-      if (filter.doFilter === false) {
-        if (sort.doSort === true) {
-          if (!currentData) {
-            setLoading(false);
-          }
-          // dispatch(sortUnits(sort)).then((res) => {
-          //   setSort({ ...sort, doSort: false });
-          //   setLoading(false);
-          // });
-        } else {
-          dispatch(getUnits()).then(() => setLoading(false));
-
-        }
-      } else {
-        dispatch(getUnitByFilter(filter)).then(() => {
-          setFilter({ ...filter, doFilter: false });
-          setLoading(false);
-        });
-      }
-    }
-  }, [dispatch, refreshKey, filter, setFilter, setLoading, loading]);
-
-  useEffect(() => {
-    dispatch(fetchResidents());
-  }, [refreshKey]);
+  const { data, isLoading, isSuccess } = useGetUnitsQuery()
+  // console.log(data);
 
   const resetFilter = () => {
-    setLoading(true);
     setFilter({
       doFilter: false,
       floor: 0,
@@ -82,27 +37,24 @@ function UnitPage() {
     setRefreshKey(refreshKey + 1);
   };
 
-  const handleDetailClicked = (id) => {
-    setShowModalDetail(true);
-    setDataSelected(units[id]);
-  };
-
   const handleOnChangeFilter = (e) => {
     setFilter({ ...filter, [e.target.name]: e.target.value });
   };
 
   const handleFilter = (e) => {
     e.preventDefault();
-    setFilter({ ...filter, doFilter: true });
-    setLoading(true);
-    setRefreshKey(refreshKey + 1);
+    alert('Do Filter')
+    // setFilter({ ...filter, doFilter: true });
+    // setLoading(true);
+    // setRefreshKey(refreshKey + 1);
   };
 
   const handleSort = (e) => {
     e.preventDefault();
-    setSort({ ...sort, doSort: true });
-    setLoading(true);
-    setRefreshKey(refreshKey + 1);
+    alert('Do Sort')
+    // setSort({ ...sort, doSort: true });
+    // setLoading(true);
+    // setRefreshKey(refreshKey + 1);
   };
 
   const handleOnChangeSort = (e) => {
@@ -114,29 +66,12 @@ function UnitPage() {
       {showModal && (
         <ModalUnit
           setShowModal={setShowModal}
-          setRefreshKey={setRefreshKey}
-          refreshKey={refreshKey}
-          loading={loading}
-          setLoading={setLoading}
-        />
-      )}
-      {showModalDetail && (
-        <ModalDetailUnit
-          dataSelected={dataSelected}
-          setShowModalDetail={setShowModalDetail}
-        />
-      )}
-      {showModalResident && (
-        <ModalResident
-          setShowModalResident={setShowModalResident}
-          setRefreshKey={setRefreshKey}
-          refreshKey={refreshKey}
         />
       )}
 
       <div className="overflow-x-auto">
         <div className="min-w-screen min-h-screen  flex  bg-white font-sans">
-          <div className="w-full px-20 my-10">
+          <div className="w-full px-10 my-10">
             <div className="flex justify-around my-2">
               <div className="flex space-x-4">
                 <div className="border p-2 rounded-lg ">
@@ -257,34 +192,13 @@ function UnitPage() {
               </button>
             </div>
 
-            {!data && <Pulse />}
+            {isLoading && <Pulse />}
             {
-              data &&
-              <div className="bg-white shadow-md ">
+              isSuccess && data &&
+              <div className="bg-white shadow-md">
                 <UnitTableComponent units={data} />
               </div>
             }
-            <br />
-            <br />
-            <hr className="w-full border-gray-300"></hr>
-            <div className="flex justify-between">
-              <h1 className="text-bold font-bold text-xl my-7">
-                Resident List
-              </h1>
-
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setShowModalResident(true);
-                }}
-                className="py-3 px-8  bg-blue-700 hover:bg-blue-500 font-bold text-md rounded-md text-white drop-shadow-3xl self-center"
-              >
-                Add Resident
-              </button>
-            </div>
-            <div className="bg-white shadow-md rounded">
-              <ResidentList loading={loading} residents={residents} />
-            </div>
           </div>
         </div>
       </div>

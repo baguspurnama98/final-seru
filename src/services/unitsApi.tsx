@@ -1,11 +1,14 @@
 import { Unit } from "../model/units";
 import { apartmentApi } from "./index";
 
+// <Unit[], void>: <response type ; argument of params type>
+// providesTags: menerima trigger untuk menjalankan fungsi diri sendiri
+// invalidatesTags: memberi trigger untuk menjalankan fungsi lain
+
 export const unitsApi = apartmentApi.injectEndpoints({
   overrideExisting: false,
   endpoints: (builder) => ({
     getUnits: builder.query<Unit[], void>({
-      // response ; argumen params
       query: () => ({
         url: "/units?_expand=resident",
         method: "GET",
@@ -15,31 +18,39 @@ export const unitsApi = apartmentApi.injectEndpoints({
 
     getUnit: builder.query<Unit, number>({
       query: (id) => ({
-        url: `/unit/${id}?_expand=resident`,
+        url: `/units/${id}?_expand=resident`,
         method: "GET",
-        params: { id },
+        // params: { id },
       }),
+    }),
+
+    createUnit: builder.mutation<void, Unit>({
+      query: (data) => ({
+        url: `/units`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["MasterMappingUnits"],
     }),
 
     updateUnit: builder.mutation<void, Unit>({
       query: (data) => ({
         url: `/units/${data.id}`,
-        method: "UPDATE",
-        data: data,
+        method: "PUT",
+        body: data,
       }),
       invalidatesTags: ["MasterMappingUnits"], // invalidatesTags = mutation
     }),
 
     deleteUnit: builder.mutation<void, number>({
       query: (id) => ({
-        url: `/unit/${id}`,
+        url: `/units/${id}`,
         method: "DELETE",
-        params: { id },
       }),
       invalidatesTags: ["MasterMappingUnits"],
     }),
 
-    filterUnit: builder.query<Unit[], string>({
+    filterUnits: builder.query<Unit[], string>({
       query: (url) => ({
         url: `/api/units?${url}&_expand=resident`,
         method: "GET",
@@ -52,14 +63,23 @@ export const unitsApi = apartmentApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    sortUnits: builder.query({
+      query: (params) => ({
+        url: `/api/units?_sort=${params.sortBy}&_order=${params.order}&_expand=resident`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useGetUnitQuery,
   useGetUnitsQuery,
+  useCreateUnitMutation,
   useDeleteUnitMutation,
   useUpdateUnitMutation,
-  useFilterUnitQuery,
+  useFilterUnitsQuery,
   useSearchUnitQuery,
+  useSortUnitsQuery,
 } = unitsApi;

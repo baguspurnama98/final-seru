@@ -6,7 +6,7 @@ import transactionSlice, {
   fetchTransactions,
   getTransactionsByFilter,
 } from "../../stores/transaction/transaction-slice";
-import ResidentPage from "../master/residents/ResidentPage";
+import ResidentPage from "../master/residents/ResidentDetail";
 import ModalTransaction from "./ModalTransaction";
 
 function TransactionsPage() {

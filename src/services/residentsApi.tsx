@@ -16,15 +16,23 @@ export const residentApi = apartmentApi.injectEndpoints({
       query: (id) => ({
         url: `/residents/${id}`,
         method: "GET",
-        params: { id },
       }),
     }),
 
+    createResident: builder.mutation<void, Resident>({
+      query: (data) => ({
+        url: `/residents`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["MasterMappingResidents"],
+    }),
+    
     updateResident: builder.mutation<void, Resident>({
       query: (data) => ({
         url: `/residents/${data.id}`,
         method: "UPDATE",
-        data: data,
+        body: data,
       }),
       invalidatesTags: ["MasterMappingResidents"], // invalidatesTags = mutation
     }),
@@ -33,7 +41,6 @@ export const residentApi = apartmentApi.injectEndpoints({
       query: (id) => ({
         url: `/residents/${id}`,
         method: "DELETE",
-        params: { id },
       }),
       invalidatesTags: ["MasterMappingResidents"],
     }),
@@ -43,6 +50,7 @@ export const residentApi = apartmentApi.injectEndpoints({
 export const {
   useGetResidentsQuery,
   useGetResidentQuery,
+  useCreateResidentMutation,
   useUpdateResidentMutation,
   useDeleteUnitMutation,
 } = residentApi;

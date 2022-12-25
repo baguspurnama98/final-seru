@@ -1,31 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import {
-  deleteUnit,
-  getUnitsById,
-  saveUpdate,
-} from "../../../stores/master/units-slice";
+import React, { useEffect, useState } from "react";
 import Pulse from "../../../assets/Pulse";
 import Spinner from "../../../assets/Spinner";
+import { useDeleteUnitMutation, useGetUnitQuery, useUpdateUnitMutation } from "../../../services/unitsApi";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function DetailPage() {
   const params = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loading = useRef(true);
-  const [unit, setUnit] = useState();
   const [loadingSubmit, setloadingSubmit] = useState(false);
   const [loadingDelete, setloadingDelete] = useState(false);
+  const [unit, setUnit] = useState();
+
+  const { data, isLoading } = useGetUnitQuery(params.id)
+  const [saveUpdate] = useUpdateUnitMutation()
+  const [deleteUnit] = useDeleteUnitMutation()
 
   useEffect(() => {
-    if (loading.current) {
-      dispatch(getUnitsById(params.id)).then((res) => {
-        loading.current = false;
-        setUnit(res.payload);
-      });
-    }
-  }, [dispatch, params.id]);
+    setUnit(data)
+  }, [data]);
 
   const handleOnChange = (e) => {
     setUnit({ ...unit, [e.target.name]: e.target.value });
@@ -34,30 +26,31 @@ export default function DetailPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setloadingSubmit(true);
-    dispatch(saveUpdate(unit)).then(() => {
+    saveUpdate(unit).then(() => {
       setloadingSubmit(false);
-      navigate("/units");
-    });
+      navigate('/units')
+    })
   };
 
   const handleDelete = (e) => {
     e.preventDefault();
     setloadingDelete(true);
-
-    dispatch(deleteUnit(unit.id)).then(() => {
+    console.log(unit.id);
+    deleteUnit(unit.id)
+    .then(() => {
       setloadingDelete(false);
-      navigate("/units");
-    });
+      navigate('/units')
+    })
   };
 
   return (
     <div>
-      {loading.current && (
+      {isLoading && !unit && (
         <div className="mt-20">
           <Pulse />
         </div>
       )}
-      {!loading.current && (
+      {!isLoading && unit && (
         <form onSubmit={handleSubmit}>
           <div role="alert" className="container py-8 px-32">
             <div className=" py-6 px-3 md:px-8 bg-white shadow-md rounded border border-gray-400">
@@ -224,10 +217,9 @@ export default function DetailPage() {
               <div className="flex items-center justify-end w-full space-x-1 mt-4">
                 <button
                   className={`flex justify-center items-center rounded  px-8 py-2 text-sm 
-                    ${
-                      ["sold", "rented"].includes(unit.status)
-                        ? "bg-gray-200 text-black"
-                        : "bg-red-700 hover:bg-red-600 text-white"
+                    ${["sold", "rented"].includes(unit.status)
+                      ? "bg-gray-200 text-black"
+                      : "bg-red-700 hover:bg-red-600 text-white"
                     }`}
                   disabled={["sold", "rented"].includes(unit.status)}
                   onClick={handleDelete}

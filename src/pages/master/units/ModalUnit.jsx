@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import Spinner from "../../../../assets/Spinner";
-import { ApartmentUnit } from "../../../../stores/master/master-model";
-import { createUnit } from "../../../../stores/master/units-slice";
+import Spinner from "../../../assets/Spinner";
+import { ApartmentUnit } from "../../../stores/master/master-model";
+import { useCreateUnitMutation } from "../../../services/unitsApi";
 
 function ModalUnit(props) {
   const [formUnit, setFormUnit] = useState(new ApartmentUnit());
-  const dispatch = useDispatch();
+  const [createUnit] = useCreateUnitMutation()
   const [loading, setLoading] = useState(false);
 
   const handleOnChangeUnit = (e) => {
@@ -27,12 +26,8 @@ function ModalUnit(props) {
     formUnit["rentPrice"] = Number(formUnit.rentPrice);
     formUnit["sellPrice"] = Number(formUnit.sellPrice);
     setLoading(true);
-    dispatch(createUnit(formUnit)).then(() => {
-      setLoading(false);
-      props.setShowModal(false);
-      props.setRefreshKey(props.refreshKey + 1);
-      props.setLoading(true);
-    });
+    console.log(formUnit);
+    createUnit(formUnit).then(() => props.setShowModal(false))
   };
 
   return (
@@ -82,6 +77,7 @@ function ModalUnit(props) {
             <input
               name="floor"
               id="name"
+              type="number"
               className="mb-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-blue-500 rounded border"
               placeholder="Ex: 10"
               onChange={handleOnChangeUnit}
@@ -93,6 +89,7 @@ function ModalUnit(props) {
             <input
               name="rooms"
               id="name"
+
               className="mb-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-blue-500 rounded border"
               placeholder="Ex: 3"
               onChange={handleOnChangeUnit}
@@ -216,6 +213,7 @@ function ModalUnit(props) {
               onClick={() => {
                 props.setShowModal(false);
               }}
+              disabled={loading}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

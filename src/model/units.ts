@@ -6,12 +6,12 @@ export interface Unit {
   rooms: string;
   direction: string;
   status: "available" | "rented" | "sold" | "unavailable";
-  balcony: boolean;
-  furnished: boolean;
+  balcony: string;
+  furnished: string;
   rentPrice: number;
   rentSchema: string;
   sellPrice: number;
-  residentId: string;
+  residentId: string | null;
   id: string;
   resident: Resident | null;
 }

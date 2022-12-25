@@ -3,7 +3,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 import { headers } from "../api/api-config";
 export const apartmentApi = createApi({
     baseQuery: fetchBaseQuery({baseUrl: "http://localhost:4000/", headers:headers}),
-    reducerPath: "unitsApi",
+    reducerPath: "apartmentApi",
     keepUnusedDataFor: 0,
     refetchOnMountOrArgChange: true,
     refetchOnFocus: true, 
