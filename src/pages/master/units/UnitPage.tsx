@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ModalUnit from "./ModalUnit";
 import UnitTableComponent from './UnitTable'
 import { useGetUnitsQuery } from '../../../services/unitsApi'
@@ -7,6 +7,7 @@ import Pulse from "../../../assets/Pulse";
 function UnitPage() {
   const [showModal, setShowModal] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const { data, isLoading, isSuccess } = useGetUnitsQuery()
 
   // const coba = useSelector((store) => store.apartmentApi )
   // console.log(coba);
@@ -24,8 +25,6 @@ function UnitPage() {
     price: "sell",
   });
 
-  const { data, isLoading, isSuccess } = useGetUnitsQuery()
-  // console.log(data);
 
   const resetFilter = () => {
     setFilter({
@@ -37,11 +36,11 @@ function UnitPage() {
     setRefreshKey(refreshKey + 1);
   };
 
-  const handleOnChangeFilter = (e) => {
+  const handleOnChangeFilter = (e: any) => {
     setFilter({ ...filter, [e.target.name]: e.target.value });
   };
 
-  const handleFilter = (e) => {
+  const handleFilter = (e: any) => {
     e.preventDefault();
     alert('Do Filter')
     // setFilter({ ...filter, doFilter: true });
@@ -49,7 +48,7 @@ function UnitPage() {
     // setRefreshKey(refreshKey + 1);
   };
 
-  const handleSort = (e) => {
+  const handleSort = (e: any) => {
     e.preventDefault();
     alert('Do Sort')
     // setSort({ ...sort, doSort: true });
@@ -57,7 +56,7 @@ function UnitPage() {
     // setRefreshKey(refreshKey + 1);
   };
 
-  const handleOnChangeSort = (e) => {
+  const handleOnChangeSort = (e: any) => {
     setSort({ ...sort, [e.target.name]: e.target.value });
   };
 

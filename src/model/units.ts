@@ -11,7 +11,7 @@ export interface Unit {
   rentPrice: number;
   rentSchema: string;
   sellPrice: number;
-  residentId: string | null;
+  residentId?: string | null;
   id: string;
-  resident: Resident | null;
+  resident?: Resident | null;
 }

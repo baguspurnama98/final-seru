@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import AppButton from "../../../ict/AppButton";
 import AppTable from "../../../ict/AppTable";
 import { Link } from "react-router-dom";
+import React from "react";
+import { Unit } from "../../../model/units";
 
 export const formatRupiah = (formUnit: number) => {
   return new Intl.NumberFormat("id-ID", {
@@ -12,7 +14,7 @@ export const formatRupiah = (formUnit: number) => {
   }).format(formUnit);
 };
 
-const UnitTableComponent = (props: any) => {
+const UnitTableComponent: React.FC<{ units: Unit[] }> = (props) => {
   const columns = [
     {
       title: "Floor",
@@ -53,7 +55,7 @@ const UnitTableComponent = (props: any) => {
     {
       title: "Resident",
       dataIndex: "resident",
-      key: "resident",
+      key: "residentId",
       render: (resident: any) => (
         <>
           {!resident && "-"}
@@ -71,8 +73,7 @@ const UnitTableComponent = (props: any) => {
     {
       title: "Details",
       align: "center",
-      dataIndex: ["status", "id"],
-      key: "actions",
+      key: "id",
       width: "100",
       render: (status: string, row: any) => {
         //function(text, record, index)
@@ -87,6 +88,7 @@ const UnitTableComponent = (props: any) => {
                 >
                   Detail
                 </Link>
+
               </Row>
             )}
           </>
@@ -95,7 +97,7 @@ const UnitTableComponent = (props: any) => {
     },
   ];
 
-  return <AppTable data={props.units} columns={columns} />;
+  return <AppTable rowKey="id" data={props.units} columns={columns} />;
 };
 
 export default UnitTableComponent;

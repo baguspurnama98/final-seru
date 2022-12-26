@@ -8,6 +8,15 @@ import { apartmentApi } from "./index";
 export const unitsApi = apartmentApi.injectEndpoints({
   overrideExisting: false,
   endpoints: (builder) => ({
+    createUnit: builder.mutation<void, Unit>({
+      query: (data) => ({
+        url: `/units`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["MasterMappingUnits"],
+    }),
+
     getUnits: builder.query<Unit[], void>({
       query: () => ({
         url: "/units?_expand=resident",
@@ -16,21 +25,12 @@ export const unitsApi = apartmentApi.injectEndpoints({
       providesTags: ["MasterMappingUnits"], //providesTags = query
     }),
 
-    getUnit: builder.query<Unit, number>({
+    getUnit: builder.query<Unit, string>({
       query: (id) => ({
         url: `/units/${id}?_expand=resident`,
         method: "GET",
         // params: { id },
       }),
-    }),
-
-    createUnit: builder.mutation<void, Unit>({
-      query: (data) => ({
-        url: `/units`,
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["MasterMappingUnits"],
     }),
 
     updateUnit: builder.mutation<void, Unit>({
@@ -42,7 +42,7 @@ export const unitsApi = apartmentApi.injectEndpoints({
       invalidatesTags: ["MasterMappingUnits"], // invalidatesTags = mutation
     }),
 
-    deleteUnit: builder.mutation<void, number>({
+    deleteUnit: builder.mutation<void, string>({
       query: (id) => ({
         url: `/units/${id}`,
         method: "DELETE",

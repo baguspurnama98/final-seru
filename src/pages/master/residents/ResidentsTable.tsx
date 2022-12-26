@@ -3,6 +3,7 @@ import { Row, Table } from "antd";
 import AppButton from "../../../ict/AppButton";
 import AppTable from "../../../ict/AppTable";
 import { Link } from "react-router-dom";
+import { useDeleteResidentMutation } from "../../../services/residentsApi";
 
 export const formatRupiah = (formUnit: number) => {
   return new Intl.NumberFormat("id-ID", {
@@ -13,6 +14,8 @@ export const formatRupiah = (formUnit: number) => {
 };
 
 const ResidentsTableComponent = (props: any) => {
+  const [deleteResident] = useDeleteResidentMutation()
+
   const columns = [
     {
       title: "#",
@@ -39,6 +42,7 @@ const ResidentsTableComponent = (props: any) => {
       title: "Marital Status",
       dataIndex: "maritalStatus",
       key: "maritalStatus",
+      render: (text: string) => <span className="capitalize">{text}</span>
     },
     {
       title: "Dependents",
@@ -60,17 +64,18 @@ const ResidentsTableComponent = (props: any) => {
           <Row justify="center">
             <Link
               to={`/resident/${row["id"]}`}
-              className="button-noborder bg-blue-500 px-2 py-1 text-white rounded-xl"
+              className="button-noborder bg-blue-500 px-2 py-1 text-white rounded-lg"
             >
               Detail
             </Link>
+            <AppButton title="Delete" className="bg-red-500 text-white ml-2" onClick={() => deleteResident(row["id"])} />
           </Row>
         );
       },
     },
   ];
 
-  return <AppTable data={props.units} columns={columns} />;
+  return <AppTable rowKey="id" data={props.units} columns={columns} />;
 };
 
 export default ResidentsTableComponent;

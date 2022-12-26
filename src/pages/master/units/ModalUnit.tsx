@@ -2,20 +2,21 @@ import React, { useState } from "react";
 import Spinner from "../../../assets/Spinner";
 import { ApartmentUnit } from "../../../stores/master/master-model";
 import { useCreateUnitMutation } from "../../../services/unitsApi";
+import { Unit } from '../../../model/units'
 
-function ModalUnit(props) {
-  const [formUnit, setFormUnit] = useState(new ApartmentUnit());
+const ModalUnit: React.FC<{ setShowModal: (status: boolean) => void }> = (props) => {
+  const [formUnit, setFormUnit] = useState<Unit>(new ApartmentUnit());
   const [createUnit] = useCreateUnitMutation()
   const [loading, setLoading] = useState(false);
 
-  const handleOnChangeUnit = (e) => {
+  const handleOnChangeUnit = (e: any) => {
     setFormUnit({
       ...formUnit,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     formUnit["unitCode"] = formUnit.unitCode.toUpperCase();
     formUnit["balcony"] = formUnit.balcony || "Yes";
@@ -26,7 +27,6 @@ function ModalUnit(props) {
     formUnit["rentPrice"] = Number(formUnit.rentPrice);
     formUnit["sellPrice"] = Number(formUnit.sellPrice);
     setLoading(true);
-    console.log(formUnit);
     createUnit(formUnit).then(() => props.setShowModal(false))
   };
 

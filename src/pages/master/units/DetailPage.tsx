@@ -1,46 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import Pulse from "../../../assets/Pulse";
 import Spinner from "../../../assets/Spinner";
 import { useDeleteUnitMutation, useGetUnitQuery, useUpdateUnitMutation } from "../../../services/unitsApi";
 import { useNavigate, useParams } from "react-router-dom";
+import { Unit } from "../../../model/units";
+
+interface idParams {
+  data: void
+  isLoading: boolean
+}
 
 export default function DetailPage() {
   const params = useParams();
   const navigate = useNavigate();
   const [loadingSubmit, setloadingSubmit] = useState(false);
   const [loadingDelete, setloadingDelete] = useState(false);
-  const [unit, setUnit] = useState();
 
-  const { data, isLoading } = useGetUnitQuery(params.id)
+  const { data, isLoading } = useGetUnitQuery<idParams>(params.id!)
+  const [unit, setUnit] = useState<Unit>(data!);
   const [saveUpdate] = useUpdateUnitMutation()
   const [deleteUnit] = useDeleteUnitMutation()
 
   useEffect(() => {
-    setUnit(data)
+    setUnit(data!)
   }, [data]);
+  //that's the non-null assertion operator. It is a way to tell the compiler "this expression cannot be null or undefined here, 
+  // so don't complain about the possibility of it being null or undefined
 
-  const handleOnChange = (e) => {
-    setUnit({ ...unit, [e.target.name]: e.target.value });
+  const handleOnChange = (e: React.FormEvent) => {
+    const target = e.target as HTMLTextAreaElement;
+    setUnit({ [target.name]: target.value } as unknown as Pick<Unit, keyof Unit>);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setloadingSubmit(true);
-    saveUpdate(unit).then(() => {
+    saveUpdate(unit!).then(() => {
       setloadingSubmit(false);
       navigate('/units')
     })
   };
 
-  const handleDelete = (e) => {
+  const handleDelete = (e: React.FormEvent) => {
     e.preventDefault();
     setloadingDelete(true);
-    console.log(unit.id);
     deleteUnit(unit.id)
-    .then(() => {
-      setloadingDelete(false);
-      navigate('/units')
-    })
+      .then(() => {
+        setloadingDelete(false);
+        navigate('/units')
+      })
   };
 
   return (

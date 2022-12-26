@@ -4,6 +4,15 @@ import { Transaction } from "../model/transaction";
 export const transactionApi = apartmentApi.injectEndpoints({
   overrideExisting: false,
   endpoints: (builder) => ({
+    createTransaction: builder.mutation<void, Transaction>({
+      query: (data) => ({
+        url: `/transactions`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["MasterMappingTransactions"],
+    }),
+
     getTransactions: builder.query<Transaction[], void>({
       query: () => ({
         url: "/transactions",
@@ -41,6 +50,7 @@ export const transactionApi = apartmentApi.injectEndpoints({
 });
 
 export const {
+  useCreateTransactionMutation,
   useGetTransactionsQuery,
   useGetTransactionQuery,
   useUpdateTransactionMutation,
