@@ -1,6 +1,4 @@
-import { Row, Table } from "antd";
-import { useDispatch } from "react-redux";
-import AppButton from "../../../ict/AppButton";
+import { Row } from "antd";
 import AppTable from "../../../ict/AppTable";
 import { Link } from "react-router-dom";
 import React from "react";
@@ -88,7 +86,6 @@ const UnitTableComponent: React.FC<{ units: Unit[] }> = (props) => {
                 >
                   Detail
                 </Link>
-
               </Row>
             )}
           </>

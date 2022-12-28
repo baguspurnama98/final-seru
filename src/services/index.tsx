@@ -15,3 +15,10 @@ export const apartmentApi = createApi({
     ],
     endpoints: () => ({})
 })
+
+export const LOGIN_URL = "login"
+export const UNIT_URL = "units"
+export const TRANSACTION_URL = "transactions"
+export const RESIDENT_URL = "residents"
+export const EXPAND_RESIDENT = "_expand=resident"
+export const EXPAND_UNIT = "_expand=unit"

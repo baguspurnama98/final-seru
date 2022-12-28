@@ -1,4 +1,4 @@
-import { apartmentApi } from ".";
+import { RESIDENT_URL, apartmentApi } from ".";
 import { Resident } from "../model/resident";
 
 export const residentApi = apartmentApi.injectEndpoints({
@@ -6,22 +6,22 @@ export const residentApi = apartmentApi.injectEndpoints({
   endpoints: (builder) => ({
     getResidents: builder.query<Resident[], void>({
       query: () => ({
-        url: "/residents",
+        url: RESIDENT_URL,
         method: "GET",
       }),
       providesTags: ["MasterMappingResidents"],
     }),
 
-    getResident: builder.query<Resident, number>({
+    getResident: builder.query<Resident, string>({
       query: (id) => ({
-        url: `/residents/${id}`,
+        url: `${RESIDENT_URL}/${id}`,
         method: "GET",
       }),
     }),
 
     createResident: builder.mutation<void, Resident>({
       query: (data) => ({
-        url: `/residents`,
+        url: RESIDENT_URL,
         method: "POST",
         body: data,
       }),
@@ -30,7 +30,7 @@ export const residentApi = apartmentApi.injectEndpoints({
 
     updateResident: builder.mutation<void, Resident>({
       query: (data) => ({
-        url: `/residents/${data.id}`,
+        url: `${RESIDENT_URL}/${data.id}`,
         method: "UPDATE",
         body: data,
       }),
@@ -39,7 +39,7 @@ export const residentApi = apartmentApi.injectEndpoints({
 
     deleteResident: builder.mutation<void, number>({
       query: (id) => ({
-        url: `/residents/${id}`,
+        url: `${RESIDENT_URL}/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["MasterMappingResidents"],

@@ -14,8 +14,16 @@ export const formatRupiah = (formUnit: number) => {
 };
 
 const ResidentsTableComponent = (props: any) => {
+
   const [deleteResident] = useDeleteResidentMutation()
 
+  const handleDelete =  (id:number) => {
+
+    deleteResident(id).then(()=>{
+    
+
+    })
+  }
   const columns = [
     {
       title: "#",
@@ -64,11 +72,11 @@ const ResidentsTableComponent = (props: any) => {
           <Row justify="center">
             <Link
               to={`/resident/${row["id"]}`}
-              className="button-noborder bg-blue-500 px-2 py-1 text-white rounded-lg"
+              className="button-noborder bg-blue-500 px-5 py-1 text-white rounded-md"
             >
               Detail
             </Link>
-            <AppButton title="Delete" className="bg-red-500 text-white ml-2" onClick={() => deleteResident(row["id"])} />
+            <AppButton title="Delete" className="bg-red-500 text-white ml-2" onClick={() => handleDelete(row["id"])} />
           </Row>
         );
       },

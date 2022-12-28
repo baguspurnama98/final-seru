@@ -1,4 +1,4 @@
-import { apartmentApi } from ".";
+import { EXPAND_RESIDENT, EXPAND_UNIT, TRANSACTION_URL, apartmentApi } from ".";
 import { Transaction } from "../model/transaction";
 
 export const transactionApi = apartmentApi.injectEndpoints({
@@ -6,7 +6,7 @@ export const transactionApi = apartmentApi.injectEndpoints({
   endpoints: (builder) => ({
     createTransaction: builder.mutation<void, Transaction>({
       query: (data) => ({
-        url: `/transactions`,
+        url: TRANSACTION_URL,
         method: "POST",
         body: data,
       }),
@@ -15,32 +15,31 @@ export const transactionApi = apartmentApi.injectEndpoints({
 
     getTransactions: builder.query<Transaction[], void>({
       query: () => ({
-        url: "/transactions",
+        url: `${TRANSACTION_URL}?${EXPAND_RESIDENT}&${EXPAND_UNIT}`,
         method: "GET",
       }),
       providesTags: ["MasterMappingTransactions"],
     }),
 
-    getTransaction: builder.query<Transaction, number>({
+    getTransaction: builder.query<Transaction, string>({
       query: (id) => ({
-        url: `/transactions/${id}`,
+        url: `${TRANSACTION_URL}/${id}?${EXPAND_RESIDENT}&${EXPAND_UNIT}`,
         method: "GET",
-        params: { id },
       }),
     }),
 
     updateTransaction: builder.mutation<void, Transaction>({
       query: (data) => ({
-        url: `/transactions/${data.id}`,
+        url: `${TRANSACTION_URL}/${data.id}`,
         method: "UPDATE",
         data: data,
       }),
       invalidatesTags: ["MasterMappingTransactions"], // invalidatesTags = mutation
     }),
 
-    deleteTransaction: builder.mutation<void, number>({
+    deleteTransaction: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/transactions/${id}`,
+        url: `${TRANSACTION_URL}/${id}`,
         method: "DELETE",
         params: { id },
       }),

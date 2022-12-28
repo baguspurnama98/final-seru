@@ -1,25 +1,23 @@
 import React, { useState } from "react";
-import Spinner from "../../../assets/Spinner";
-import { Resident } from "../../../stores/master/residents-model";
+import { Resident } from "../../../model/master-model";
 import { useCreateResidentMutation } from "../../../services/residentsApi";
+import AppButton from "../../../ict/AppButton";
 
-function ModalResident(props) {
+function ModalResident(props: { setShowModal: any }) {
   const [formResident, setFormResident] = useState(new Resident());
-  const [createResident] = useCreateResidentMutation()
-  const [loading, setLoading] = useState(false);
+  const [createResident] = useCreateResidentMutation();
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: any) => {
     setFormResident({
       ...formResident,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    setLoading(true);
     formResident["maritalStatus"] = formResident.maritalStatus || "single";
-    createResident(formResident).then(() => props.setShowModal(false))
+    createResident(formResident).then(() => props.setShowModal(false));
   };
 
   return (
@@ -124,13 +122,13 @@ function ModalResident(props) {
               >
                 Cancel
               </button>
-              <button
-                className="flex justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm"
+              
+              <AppButton
+                className="flex justify-center items-center transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-5 text-sm"
                 disabled={!formResident.fullName}
-              >
-                {loading && <Spinner />}
-                <span>Submit</span>
-              </button>
+                title="Submit"
+                htmlType="submit"
+              />
             </div>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as AuthAPI from "../../api/auth-api";
+import {login} from "../../services/authApi";
 
 export const loginUser = createAsyncThunk("/login", async (data) => {
-  const users = await AuthAPI.login(data);
+  const users = await login(data);
   return users;
 });
 
@@ -12,10 +12,6 @@ const userSlice = createSlice({
     userLogged: undefined,
   },
   reducers: {
-    saveUser: (state, action) => {
-      state.userLogged = action.payload;
-      state.isLogin = true;
-    },
     logout: (state, action) => {
       state.isLogin = false;
       state.userLogged = undefined;

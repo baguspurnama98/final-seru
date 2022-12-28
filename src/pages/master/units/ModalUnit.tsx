@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import Spinner from "../../../assets/Spinner";
-import { ApartmentUnit } from "../../../stores/master/master-model";
+import { ApartmentUnit } from "../../../model/master-model";
 import { useCreateUnitMutation } from "../../../services/unitsApi";
-import { Unit } from '../../../model/units'
+import { Unit } from "../../../model/units";
+import AppButton from "../../../ict/AppButton";
 
-const ModalUnit: React.FC<{ setShowModal: (status: boolean) => void }> = (props) => {
+const ModalUnit: React.FC<{ setShowModal: (status: boolean) => void }> = (
+  props
+) => {
   const [formUnit, setFormUnit] = useState<Unit>(new ApartmentUnit());
-  const [createUnit] = useCreateUnitMutation()
-  const [loading, setLoading] = useState(false);
+  const [createUnit] = useCreateUnitMutation();
 
   const handleOnChangeUnit = (e: any) => {
     setFormUnit({
@@ -26,8 +27,7 @@ const ModalUnit: React.FC<{ setShowModal: (status: boolean) => void }> = (props)
     formUnit["status"] = "available";
     formUnit["rentPrice"] = Number(formUnit.rentPrice);
     formUnit["sellPrice"] = Number(formUnit.sellPrice);
-    setLoading(true);
-    createUnit(formUnit).then(() => props.setShowModal(false))
+    createUnit(formUnit).then(() => props.setShowModal(false));
   };
 
   return (
@@ -89,7 +89,6 @@ const ModalUnit: React.FC<{ setShowModal: (status: boolean) => void }> = (props)
             <input
               name="rooms"
               id="name"
-
               className="mb-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-blue-500 rounded border"
               placeholder="Ex: 3"
               onChange={handleOnChangeUnit}
@@ -199,13 +198,12 @@ const ModalUnit: React.FC<{ setShowModal: (status: boolean) => void }> = (props)
               >
                 Cancel
               </button>
-              <button
-                className="flex justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm"
+              <AppButton
+                className="flex justify-center items-center transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-5 text-sm"
                 disabled={!formUnit.unitCode}
-              >
-                {loading && <Spinner />}
-                <span>Submit</span>
-              </button>
+                title="Submit"
+                htmlType="submit"
+              />
             </div>
             <button
               className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
@@ -213,7 +211,6 @@ const ModalUnit: React.FC<{ setShowModal: (status: boolean) => void }> = (props)
               onClick={() => {
                 props.setShowModal(false);
               }}
-              disabled={loading}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -237,6 +234,6 @@ const ModalUnit: React.FC<{ setShowModal: (status: boolean) => void }> = (props)
       </form>
     </div>
   );
-}
+};
 
 export default ModalUnit;

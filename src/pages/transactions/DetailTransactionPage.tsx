@@ -1,32 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { useParams } from "react-router-dom";
 import Pulse from "../../assets/Pulse";
-import { fetchTransactionsbyId } from "../../stores/transaction/transaction-slice";
+import { useGetTransactionQuery } from "../../services/transactionsApi";
 
-function DetailTransactionPage() {
+interface idParams {
+  data: any;
+  isLoading: boolean;
+}
+const DetailTransactionPage: React.FC = () => {
   const params = useParams();
-  const [detail, setDetail] = useState();
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchTransactionsbyId(params.id)).then((res) => {
-      setDetail(res.payload);
-      setLoading(false);
-    });
-  }, [dispatch]);
+  const { data: detailTransaction, isLoading } =
+    useGetTransactionQuery<idParams>(params.id!);
 
   return (
     <>
       <div className=" text-white bg-main-color">
         <div className="w-full px-20 my-10">
-          {loading && (
+          {isLoading && (
             <div className="m-auto">
               <Pulse />
             </div>
           )}
-          {!loading && detail && (
+          {!isLoading && detailTransaction && (
             <div className="flex">
               <div className="w-full md:w-6/12 md:mx-2">
                 <div className="bg-white p-3 border-t-4 border-blue-700">
@@ -38,7 +33,7 @@ function DetailTransactionPage() {
                     />
                   </div>
                   <h1 className="text-gray-900 font-bold text-3xl leading-8 mt-5">
-                    Unit {detail.unit.unitCode}
+                    Unit {detailTransaction.unit.unitCode}
                   </h1>
                   <div className="p-3 shadow-xl rounded-lg mt-2 flex space-x-2">
                     <svg
@@ -65,32 +60,32 @@ function DetailTransactionPage() {
                         <div className="grid grid-cols-3">
                           <div className="px-1 font-semibold">Floor</div>
                           <div className="col-span-2">
-                            : {detail.unit.floor}
+                            : {detailTransaction.unit.floor}
                           </div>
                         </div>
                         <div className="grid grid-cols-3">
                           <div className="px-1 font-semibold ">Furnished</div>
                           <div className="col-span-2">
-                            : {detail.unit.furnished}
+                            : {detailTransaction.unit.furnished}
                           </div>
                         </div>
 
                         <div className="grid grid-cols-3">
                           <div className="px-1 font-semibold">Direction</div>
                           <div className="col-span-2">
-                            : {detail.unit.direction}
+                            : {detailTransaction.unit.direction}
                           </div>
                         </div>
                         <div className="grid grid-cols-3">
                           <div className="px-1 font-semibold">Balcony</div>
                           <div className="col-span-2">
-                            : {detail.unit.balcony}
+                            : {detailTransaction.unit.balcony}
                           </div>
                         </div>
                         <div className="grid grid-cols-3">
                           <div className="px-1 font-semibold">Rooms</div>
                           <div className="col-span-2">
-                            : {detail.unit.rooms}
+                            : {detailTransaction.unit.rooms}
                           </div>
                         </div>
                       </div>
@@ -104,7 +99,7 @@ function DetailTransactionPage() {
               <div className="w-full md:w-8/12 mx-2 h-64 pt-5">
                 <div className="bg-white p-3 shadow-md rounded-sm">
                   <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-                    <span clas="text-green-500">
+                    <span className="text-green-500">
                       <svg
                         className="h-5"
                         xmlns="http://www.w3.org/2000/svg"
@@ -127,39 +122,41 @@ function DetailTransactionPage() {
                   <div className="text-gray-700">
                     <div className="grid md:grid-cols-2 text-sm px-5 gap-2">
                       <div className="grid grid-cols-3">
-                        <div className="px-2 font-semibold">Full Name</div>
+                        <div className="px-2 font-semibold truncatea">
+                          Full Name
+                        </div>
                         <div className="col-span-2">
-                          : {detail.resident.fullName}
+                          : {detailTransaction.resident.fullName}
                         </div>
                       </div>
                       <div className="grid grid-cols-3">
                         <div className="px-2 font-semibold">Email</div>
-                        <div className="col-span-2">
-                          : {detail.resident.email}
+                        <div className="col-span-2 truncate">
+                          : {detailTransaction.resident.email}
                         </div>
                       </div>
                       <div className="grid grid-cols-3">
                         <div className="px-2 font-semibold">Phone</div>
                         <div className="col-span-2">
-                          : {detail.resident.phone}
+                          : {detailTransaction.resident.phone}
                         </div>
                       </div>
                       <div className="grid grid-cols-3">
                         <div className="px-2 font-semibold">Status</div>
                         <div className="col-span-2">
-                          : {detail.resident.maritalStatus}
+                          : {detailTransaction.resident.maritalStatus}
                         </div>
                       </div>
                       <div className="grid grid-cols-3">
                         <div className="px-2 font-semibold">Dependent</div>
                         <div className="col-span-2">
-                          : {detail.resident.dependents}
+                          : {detailTransaction.resident.dependents}
                         </div>
                       </div>
                       <div className="grid grid-cols-3">
                         <div className="px-2 font-semibold">Birthday</div>
                         <div className="col-span-2">
-                          : {detail.resident.birthDate}
+                          : {detailTransaction.resident.birthDate}
                         </div>
                       </div>
                     </div>
@@ -172,7 +169,7 @@ function DetailTransactionPage() {
                   <div className="grid grid-cols-2">
                     <div>
                       <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                        <span clas="text-green-500">
+                        <span className="text-green-500">
                           <svg
                             className="h-5"
                             xmlns="http://www.w3.org/2000/svg"
@@ -193,13 +190,15 @@ function DetailTransactionPage() {
                         </span>
                       </div>
                       <ul className="list-inside space-y-2 text-gray-800 text-sm">
-                        <li>Transaction Data : {detail.transactionDate}</li>
-                        <li>Price : {detail.price}</li>
-                        <li>Schema : {detail.schema}</li>
-                        <li>Billing Data : {detail.billingDate}</li>
-                        <li>Start Data : {detail.rentStartDate}</li>
-                        <li>End Data : {detail.rensEndDate}</li>
-                        <li>Period : {detail.period}</li>
+                        <li>
+                          Transaction Data : {detailTransaction.transactionDate}
+                        </li>
+                        <li>Price : {detailTransaction.price}</li>
+                        <li>Schema : {detailTransaction.schema}</li>
+                        <li>Billing Data : {detailTransaction.billingDate}</li>
+                        <li>Start Data : {detailTransaction.rentStartDate}</li>
+                        <li>End Data : {detailTransaction.rentEndDate}</li>
+                        <li>Period : {detailTransaction.period}</li>
                       </ul>
                     </div>
                   </div>
@@ -211,6 +210,5 @@ function DetailTransactionPage() {
       </div>
     </>
   );
-}
-
+};
 export default DetailTransactionPage;

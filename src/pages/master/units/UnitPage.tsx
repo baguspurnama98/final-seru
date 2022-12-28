@@ -1,39 +1,47 @@
 import React, { useState } from "react";
 import ModalUnit from "./ModalUnit";
 import UnitTableComponent from './UnitTable'
-import { useGetUnitsQuery } from '../../../services/unitsApi'
+import { useGetUnitsQuery, useLazyGetUnitsQuery } from '../../../services/unitsApi'
 import Pulse from "../../../assets/Pulse";
+import { useEffect } from "react"
 
 function UnitPage() {
   const [showModal, setShowModal] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
-  const { data, isLoading, isSuccess } = useGetUnitsQuery()
+  const [getListUnit, { data:listUnit, isLoading, isSuccess }] = useLazyGetUnitsQuery() 
+  const [paramFilter, setParamFilter] = useState<any>("")
+  const [sortFilter, setSortFilter] = useState<any>("")
+  // agar tidak otomatis dipanggil, jd hrs dipanggil secara manual
+  
+  useEffect(() => {
+    console.log('oke');
+    console.log(filter)
+		  getListUnit({
+        floor: filter.floor,
+        status: filter.status, 
+        rentSchema: filter.rentSchema,
+      })
+	}, [paramFilter, sortFilter])
 
   // const coba = useSelector((store) => store.apartmentApi )
   // console.log(coba);
+  interface IFilter{
+    floor?:number,
+    status?: string,
+    rentSchema?: string,
+  }
 
-  const [filter, setFilter] = useState({
-    doFilter: false,
+  const [filter, setFilter] = useState<IFilter>({
     floor: 0,
     status: "",
     rentSchema: "",
   });
 
-  const [sort, setSort] = useState({
-    doSort: false,
-    order: "asc", //desc
-    price: "sell",
-  });
-
-
   const resetFilter = () => {
     setFilter({
-      doFilter: false,
       floor: 0,
       status: "",
       rentSchema: "",
     });
-    setRefreshKey(refreshKey + 1);
   };
 
   const handleOnChangeFilter = (e: any) => {
@@ -42,18 +50,22 @@ function UnitPage() {
 
   const handleFilter = (e: any) => {
     e.preventDefault();
-    alert('Do Filter')
-    // setFilter({ ...filter, doFilter: true });
-    // setLoading(true);
-    // setRefreshKey(refreshKey + 1);
+    var paramURL = Object.keys(filter).map(function(key) {
+      return key + '=' + filter[key as keyof IFilter];
+    }).join('&');
+    
+    setParamFilter(paramURL)
   };
+
+  const [sort, setSort] = useState({
+    order: "asc", //desc
+    price: "sell",
+  });
 
   const handleSort = (e: any) => {
     e.preventDefault();
-    alert('Do Sort')
-    // setSort({ ...sort, doSort: true });
-    // setLoading(true);
-    // setRefreshKey(refreshKey + 1);
+    // setSortFilter(  { order: "asc",
+    // price: "sell"})
   };
 
   const handleOnChangeSort = (e: any) => {
@@ -193,9 +205,9 @@ function UnitPage() {
 
             {isLoading && <Pulse />}
             {
-              isSuccess && data &&
+              isSuccess && listUnit &&
               <div className="bg-white shadow-md">
-                <UnitTableComponent units={data} />
+                <UnitTableComponent units={listUnit} />
               </div>
             }
           </div>

@@ -25,6 +25,6 @@
     "**/*.tsx",
     "**/**/*.ts",
     "**/**/*.tsx"
-  ],
+, "src/pages/master/residents/ResidentDetail.tsx", "src/stores/transaction/transaction-model.js"  ],
   "exclude": ["node_modules"]
 }

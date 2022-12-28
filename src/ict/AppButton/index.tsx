@@ -1,21 +1,25 @@
 import { Button, ButtonProps } from 'antd'
 import React from 'react'
 import clsx from 'clsx'
+import Spinner from '../../assets/Spinner'
+import { useState } from "react";
 
-type ButtonType = "default" | "link" | "text" | "ghost" | "primary" | "dashed" | undefined
+type ButtonTypes = "default" | "link" | "text" | "ghost" | "primary" | "dashed" | undefined 
 
 interface Props extends ButtonProps {
     className?: string
     icon?: React.ReactNode
     title?: string
-    type?: ButtonType
+    type?: ButtonTypes
     onClick?: () => void
+    isLoading?: boolean
 }
 
 
 const AppButton: React.FC<Props> = ({
-    title, icon, className, onClick = () => { }, type, ...buttonProps
+    title, icon, className, isLoading, onClick = () => { }, type, ...buttonProps
 }) => {
+    const [loading, setLoading] = useState(false)
     if (Boolean(icon)) {
         return (
             <Button className={clsx("icon-btn", className)}  icon={icon} type={type} onClick={(e: any) => {
@@ -29,9 +33,14 @@ const AppButton: React.FC<Props> = ({
     return (
         <Button className={clsx("btn", className)}  type={type} onClick={(e: any) => {
             e.stopPropagation()
+            setLoading(true)
             onClick()
         }} {...buttonProps}>
-            {title}
+            <div className='flex'>
+
+            {loading && <Spinner />}
+            <span>{title}</span>
+            </div>
         </Button>
     )
 

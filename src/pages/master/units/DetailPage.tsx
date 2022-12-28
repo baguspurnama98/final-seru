@@ -18,9 +18,10 @@ export default function DetailPage() {
 
   const { data, isLoading } = useGetUnitQuery<idParams>(params.id!)
   const [unit, setUnit] = useState<Unit>(data!);
-  const [saveUpdate] = useUpdateUnitMutation()
+  const [saveUpdate, { isLoading: isEditing }] = useUpdateUnitMutation()
   const [deleteUnit] = useDeleteUnitMutation()
-
+  console.log(isEditing);
+  
   useEffect(() => {
     setUnit(data!)
   }, [data]);
@@ -29,12 +30,12 @@ export default function DetailPage() {
 
   const handleOnChange = (e: React.FormEvent) => {
     const target = e.target as HTMLTextAreaElement;
-    setUnit({ [target.name]: target.value } as unknown as Pick<Unit, keyof Unit>);
+    setUnit({ ...unit, [target.name]: target.value } as unknown as Pick<Unit, keyof Unit>);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setloadingSubmit(true);
+    setloadingSubmit(true);    
     saveUpdate(unit!).then(() => {
       setloadingSubmit(false);
       navigate('/units')
