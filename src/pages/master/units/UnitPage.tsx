@@ -14,11 +14,14 @@ function UnitPage() {
   
   useEffect(() => {
     console.log('oke');
-    console.log(filter)
+    console.log(sort)
 		  getListUnit({
         floor: filter.floor,
         status: filter.status, 
         rentSchema: filter.rentSchema,
+        price: sort.price,
+        order: sort.order,
+
       })
 	}, [paramFilter, sortFilter])
 
@@ -30,10 +33,20 @@ function UnitPage() {
     rentSchema?: string,
   }
 
+  interface ISort{
+    price?:string,
+    order?:string
+  }
+
   const [filter, setFilter] = useState<IFilter>({
     floor: 0,
     status: "",
     rentSchema: "",
+  });
+
+  const [sort, setSort] = useState<ISort>({
+    price: "",
+    order: "",
   });
 
   const resetFilter = () => {
@@ -57,15 +70,12 @@ function UnitPage() {
     setParamFilter(paramURL)
   };
 
-  const [sort, setSort] = useState({
-    order: "asc", //desc
-    price: "sell",
-  });
-
   const handleSort = (e: any) => {
     e.preventDefault();
-    // setSortFilter(  { order: "asc",
-    // price: "sell"})
+    var paramURL = Object.keys(sort).map(function(key) {
+      return key + '=' + sort[key as keyof ISort];
+    }).join('&');
+    setSortFilter(paramURL)
   };
 
   const handleOnChangeSort = (e: any) => {

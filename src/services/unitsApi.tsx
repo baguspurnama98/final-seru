@@ -6,25 +6,33 @@ import { apartmentApi, EXPAND_RESIDENT, UNIT_URL } from "./index";
 // invalidatesTags: memberi trigger untuk menjalankan fungsi lain
 
 interface UnitParams {
-  floor?: number | '',
-  status?: string,
-  rentSchema?: string,
-  sortValue?: string
+  floor?: number | "";
+  status?: string;
+  rentSchema?: string;
+  sortValue?: string;
+  price?: string;
+  order?: string;
 }
 
 const getUnitParams = (dto: UnitParams) => {
-  const params:any = {}
-	if(dto.floor !== 0){
-		params.floor = dto.floor
-	}
-	if(dto.status !== ''){
-		params.status = dto.status
-	}
-	if(dto.rentSchema !== ''){
-		params.rentSchema = dto.rentSchema
-	}
-	return params
-}
+  const params: any = {};
+  if (dto.floor !== 0) {
+    params.floor = dto.floor;
+  }
+  if (dto.status !== "") {
+    params.status = dto.status;
+  }
+  if (dto.rentSchema !== "") {
+    params.rentSchema = dto.rentSchema;
+  }
+  if(dto.price !== "") {
+    params._sort = dto.price
+  }
+  if(dto.order !== "") {
+    params._order = dto.order
+  }
+  return params;
+};
 
 export const unitsApi = apartmentApi.injectEndpoints({
   overrideExisting: false,
@@ -39,11 +47,14 @@ export const unitsApi = apartmentApi.injectEndpoints({
     }),
 
     getUnits: builder.query<Unit[], UnitParams>({
-      query: (dto) => (console.log(getUnitParams(dto)),{
-        url: `${UNIT_URL}?${EXPAND_RESIDENT}`,
-        method: "GET",
-        params: getUnitParams(dto)
-      }),
+      query: (dto) => (
+        console.log(getUnitParams(dto)),
+        {
+          url: `${UNIT_URL}?${EXPAND_RESIDENT}`,
+          method: "GET",
+          params: getUnitParams(dto),
+        }
+      ),
       providesTags: ["MasterMappingUnits"], //providesTags = query
     }),
 
